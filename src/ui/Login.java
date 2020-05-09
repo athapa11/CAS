@@ -59,6 +59,7 @@ public class Login extends JFrame {
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 729, 476);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(51, 153, 153));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -133,6 +134,11 @@ public class Login extends JFrame {
 				 if(!auth.isValidUser(username, password)) {
 					 lblLoginError.setText("Invalid username or password");
 						lblLoginError.setVisible(true);
+				 }else {
+					 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					Dashboard dashboard = new Dashboard();
+					dashboard.setLocationRelativeTo(null);
+					dashboard.setVisible(true);
 				 }
 				
 				 System.out.print(UserSession.getCurrentUser().userName);
