@@ -1,10 +1,9 @@
-import java.awt.BorderLayout;
+package ui;
 import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
@@ -20,6 +19,10 @@ import javax.swing.SwingConstants;
 
 public class Dashboard extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -43,9 +46,10 @@ public class Dashboard extends JFrame {
 	 */
 	public Dashboard() {
 		setBackground(new Color(0, 153, 153));
-		setLocationRelativeTo(null);
-		setBounds(100, 100, 654, 587);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1000, 587);
 		setUndecorated(true);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 153, 153));
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 102), 2));
@@ -106,7 +110,7 @@ public class Dashboard extends JFrame {
 		lblCloseDashboard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int optionYes=JOptionPane.showConfirmDialog(null,"Are you sure you want to close application?");  
+				int optionYes=JOptionPane.showConfirmDialog(null,"Are you sure you want to close application?", "Close - CAS", JOptionPane.YES_NO_OPTION);  
 				if(optionYes ==JOptionPane.YES_OPTION){  
 					System.exit(0);
 				}  
@@ -125,8 +129,12 @@ public class Dashboard extends JFrame {
 		lblCloseDashboard.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCloseDashboard.setForeground(new Color(255, 255, 255));
 		lblCloseDashboard.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCloseDashboard.setBounds(628, 0, 26, 22);
+		lblCloseDashboard.setBounds(974, 0, 26, 22);
 		contentPane.add(lblCloseDashboard);
+		
+		JPanel panelProduct = new JPanel();
+		panelProduct.setBounds(198, 104, 802, 483);
+		contentPane.add(panelProduct);
 	}
 	
 	private class MenuButtonMouseAdampter extends MouseAdapter{
