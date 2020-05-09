@@ -56,7 +56,7 @@ public class Dashboard extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 153, 153));
-		contentPane.setBorder(new LineBorder(new Color(0, 0, 102), 2));
+		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		

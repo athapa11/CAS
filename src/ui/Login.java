@@ -129,19 +129,17 @@ public class Login extends JFrame {
 					lblLoginError.setText("Please fill username and password");
 					lblLoginError.setVisible(true);
 				}else {
-					//check log in
-					Auth auth = new Auth();
-				 if(!auth.isValidUser(username, password)) {
-					 lblLoginError.setText("Invalid username or password");
-						lblLoginError.setVisible(true);
-				 }else {
-					 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					Dashboard dashboard = new Dashboard();
-					dashboard.setLocationRelativeTo(null);
-					dashboard.setVisible(true);
-				 }
-				
-				 System.out.print(UserSession.getCurrentUser().userName);
+					 //check log in
+					 Auth auth = new Auth();
+					 if(!auth.isValidUser(username, password)) {
+						 lblLoginError.setText("Invalid username or password");
+							lblLoginError.setVisible(true);
+					 }else {
+						setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						Dashboard dashboard = new Dashboard();
+						dashboard.setLocationRelativeTo(null);
+						dashboard.setVisible(true);
+					 }
 				}
 			}
 		});
