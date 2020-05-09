@@ -70,7 +70,7 @@ public class Dashboard extends JFrame {
 		panelMenu.setLayout(null);
 		
 		JLabel lblLogo = new JLabel("New label");
-		lblLogo.setBounds(0, 0, 197, 196);
+		lblLogo.setBounds(2, 2, 197, 196);
 		lblLogo.setIcon(new ImageIcon(Login.class.getResource("/images/bg.jpg")));
 		panelMenu.add(lblLogo);
 		
