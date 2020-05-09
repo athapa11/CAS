@@ -1,25 +1,24 @@
 package ui;
 import javax.swing.JPanel;
+import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import java.awt.Color;
 
-public class PanelProduct extends JPanel {
+public class PanelProfile extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelProduct() {
-		setForeground(new Color(0, 0, 0));
+	public PanelProfile() {
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, 0, 802, 483);
 		setLayout(null);
 		setVisible(true);
 		
-		JLabel lblNewLabel = new JLabel("Products");
-		lblNewLabel.setForeground(new Color(102, 102, 102));
+		JLabel lblNewLabel = new JLabel("Profile");
+		lblNewLabel.setForeground(new Color(153, 153, 153));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(6, 6, 774, 27);
+		lblNewLabel.setBounds(0, 0, 802, 39);
 		add(lblNewLabel);
 	}
 

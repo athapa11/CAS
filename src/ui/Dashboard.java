@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+
+import auth.UserSession;
+import auth.User;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -21,6 +25,9 @@ public class Dashboard extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
+	private PanelProduct panelProduct;
+	private PanelProfile panelProfile;
 
 	/**
 	 * Launch the application.
@@ -53,6 +60,9 @@ public class Dashboard extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		panelProduct = new PanelProduct();
+		panelProfile = new PanelProfile();
+		
 		JPanel panelMenu = new JPanel();
 		panelMenu.setBackground(new Color(51, 102, 102));
 		panelMenu.setBounds(0, 0, 197, 587);
@@ -65,7 +75,12 @@ public class Dashboard extends JFrame {
 		panelMenu.add(lblLogo);
 		
 		JPanel panelProductMenu = new JPanel();
-		panelProductMenu.addMouseListener(new MenuButtonMouseAdampter(panelProductMenu));
+		panelProductMenu.addMouseListener(new MenuButtonMouseAdampter(panelProductMenu) {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuClicked(panelProduct);
+			}
+		});
 		panelProductMenu.setBackground(new Color(51, 102, 102));
 		panelProductMenu.setBounds(0, 195, 197, 40);
 		panelMenu.add(panelProductMenu);
@@ -78,7 +93,12 @@ public class Dashboard extends JFrame {
 		panelProductMenu.add(lblProductMenu);
 		
 		JPanel panelProfileMenu = new JPanel();
-		panelProfileMenu.addMouseListener(new MenuButtonMouseAdampter(panelProfileMenu));
+		panelProfileMenu.addMouseListener(new MenuButtonMouseAdampter(panelProfileMenu) {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuClicked(panelProfile);
+			}
+		});
 		panelProfileMenu.setBackground(new Color(51, 102, 102));
 		panelProfileMenu.setBounds(0, 235, 197, 40);
 		panelMenu.add(panelProfileMenu);
@@ -91,7 +111,18 @@ public class Dashboard extends JFrame {
 		panelProfileMenu.add(lblProfileMenu);
 		
 		JPanel panelLogoutMenu = new JPanel();
-		panelLogoutMenu.addMouseListener(new MenuButtonMouseAdampter(panelLogoutMenu));
+		panelLogoutMenu.addMouseListener(new MenuButtonMouseAdampter(panelLogoutMenu) {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int optionYes=JOptionPane.showConfirmDialog(null,"Are you sure you want to logout?", "Logout - CAS", JOptionPane.YES_NO_OPTION);  
+				if(optionYes ==JOptionPane.YES_OPTION){  
+					Login login = new Login();
+					login.setVisible(true);
+					Dashboard.this.dispose();
+				}  
+				
+			} 
+		});
 		panelLogoutMenu.setBackground(new Color(51, 102, 102));
 		panelLogoutMenu.setBounds(0, 275, 197, 40);
 		panelMenu.add(panelLogoutMenu);
@@ -129,9 +160,49 @@ public class Dashboard extends JFrame {
 		lblCloseDashboard.setBounds(974, 0, 26, 22);
 		contentPane.add(lblCloseDashboard);
 		
-		JPanel panelProduct = new JPanel();
-		panelProduct.setBounds(198, 104, 802, 483);
-		contentPane.add(panelProduct);
+		JPanel panelMainContent = new JPanel();
+		panelMainContent.setBounds(198, 104, 802, 483);
+		contentPane.add(panelMainContent);
+		panelMainContent.setLayout(null);
+		
+		//add menu panel
+		panelMainContent.add(panelProduct);
+		panelMainContent.add(panelProfile);
+		
+		JLabel lblCurrentUser = new JLabel("User:");
+		lblCurrentUser.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCurrentUser.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblCurrentUser.setForeground(new Color(255, 255, 255));
+		lblCurrentUser.setBounds(850, 6, 35, 33);
+		contentPane.add(lblCurrentUser);
+		
+		JLabel label = new JLabel("Computer Accessories Shop");
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		label.setBounds(209, 6, 233, 39);
+		contentPane.add(label);
+		
+		JLabel lblCurrentUserValue = new JLabel("");
+		lblCurrentUserValue.setForeground(Color.WHITE);
+		lblCurrentUserValue.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblCurrentUserValue.setBounds(895, 6, 83, 33);
+		User currentUser = UserSession.getCurrentUser();
+		if(currentUser != null ) {
+			lblCurrentUserValue.setText(currentUser.userName);
+		}
+		
+		
+		contentPane.add(lblCurrentUserValue);
+		panelProduct.setVisible(true);
+		
+		//menuClicked(panelProduct);
+	}
+	
+	public void menuClicked(JPanel panel) {
+	 panelProduct.setVisible(false);
+	 panelProfile.setVisible(false);
+	 
+	 panel.setVisible(true);
 	}
 	
 	private class MenuButtonMouseAdampter extends MouseAdapter{
