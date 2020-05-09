@@ -1,13 +1,13 @@
 package auth;
 
 public class User {
-	int userId;
-	String userName;
-	String surname;
-	int houseNumber;
-	String postcode;
-	String city;
-	String role;
+	public int userId;
+	public String userName;
+	public String surname;
+	public int houseNumber;
+	public String postcode;
+	public String city;
+	public String role;
 	
 	protected User currentUser;
 	
@@ -24,14 +24,5 @@ public class User {
 		this.postcode = postcode;
 		this.city = city;
 		this.role = role;
-	}
-
-
-	public void setCurrentUser(User user) {
-		this.currentUser = user;
-	}
-	
-	public User getCurrentUser() {
-		return this.currentUser;
 	}
 }

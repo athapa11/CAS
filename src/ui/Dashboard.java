@@ -6,9 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
-
-import auth.Login;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 

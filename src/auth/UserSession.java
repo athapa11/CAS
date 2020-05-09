@@ -9,7 +9,7 @@ public final class UserSession {
 
 
     private UserSession(User user) {
-        UserSession.currentUser = user;
+        currentUser = user;
     }
 
     public static UserSession getInstace(User user) {

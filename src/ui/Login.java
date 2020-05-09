@@ -1,10 +1,15 @@
-package auth;
+package ui;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import auth.Auth;
+import auth.User;
+import auth.UserSession;
+
 import java.awt.Color;
 import java.awt.Button;
 import javax.swing.JTextField;
@@ -21,10 +26,6 @@ import java.awt.event.ActionEvent;
 
 
 public class Login extends JFrame {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -133,9 +134,8 @@ public class Login extends JFrame {
 					 lblLoginError.setText("Invalid username or password");
 						lblLoginError.setVisible(true);
 				 }
-				User currentUser = UserSession.getCurrentUser();
 				
-				 System.out.print(currentUser.surname);
+				 System.out.print(UserSession.getCurrentUser().userName);
 				}
 			}
 		});
