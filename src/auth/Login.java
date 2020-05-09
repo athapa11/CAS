@@ -59,13 +59,13 @@ public class Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 729, 476);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
+		contentPane.setBackground(new Color(51, 153, 153));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.DARK_GRAY);
+		panel.setBackground(new Color(51, 102, 102));
 		panel.setBounds(0, 0, 346, 490);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -162,19 +162,28 @@ public class Login extends JFrame {
 		contentPane.add(passwordField);
 		
 		
-		JLabel lbl_close = new JLabel("X");
-		lbl_close.addMouseListener(new MouseAdapter() {
+		JLabel lblClose = new JLabel("X");
+		lblClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
 				System.exit(0);
 			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblClose.setForeground(Color.RED);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblClose.setForeground(Color.WHITE);
+			}
 		});
-		lbl_close.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_close.setForeground(new Color(241, 57, 83));
-		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lbl_close.setBounds(691, 0, 37, 27);
-		contentPane.add(lbl_close);
+		lblClose.setHorizontalAlignment(SwingConstants.CENTER);
+		lblClose.setForeground(new Color(255, 255, 255));
+		lblClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblClose.setBounds(691, 0, 37, 27);
+		contentPane.add(lblClose);
 		
 		
 	}

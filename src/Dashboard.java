@@ -11,9 +11,12 @@ import javax.swing.border.LineBorder;
 import auth.Login;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.SwingConstants;
 
 public class Dashboard extends JFrame {
 
@@ -40,7 +43,7 @@ public class Dashboard extends JFrame {
 	 */
 	public Dashboard() {
 		setBackground(new Color(0, 153, 153));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 654, 587);
 		setUndecorated(true);
 		contentPane = new JPanel();
@@ -61,6 +64,7 @@ public class Dashboard extends JFrame {
 		panelMenu.add(lblLogo);
 		
 		JPanel panelProductMenu = new JPanel();
+		panelProductMenu.addMouseListener(new MenuButtonMouseAdampter(panelProductMenu));
 		panelProductMenu.setBackground(new Color(51, 102, 102));
 		panelProductMenu.setBounds(0, 195, 197, 40);
 		panelMenu.add(panelProductMenu);
@@ -73,6 +77,7 @@ public class Dashboard extends JFrame {
 		panelProductMenu.add(lblProductMenu);
 		
 		JPanel panelProfileMenu = new JPanel();
+		panelProfileMenu.addMouseListener(new MenuButtonMouseAdampter(panelProfileMenu));
 		panelProfileMenu.setBackground(new Color(51, 102, 102));
 		panelProfileMenu.setBounds(0, 235, 197, 40);
 		panelMenu.add(panelProfileMenu);
@@ -85,6 +90,7 @@ public class Dashboard extends JFrame {
 		panelProfileMenu.add(lblProfileMenu);
 		
 		JPanel panelLogoutMenu = new JPanel();
+		panelLogoutMenu.addMouseListener(new MenuButtonMouseAdampter(panelLogoutMenu));
 		panelLogoutMenu.setBackground(new Color(51, 102, 102));
 		panelLogoutMenu.setBounds(0, 275, 197, 40);
 		panelMenu.add(panelLogoutMenu);
@@ -95,6 +101,32 @@ public class Dashboard extends JFrame {
 		lblLogOutMenu.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblLogOutMenu.setBounds(18, 6, 173, 29);
 		panelLogoutMenu.add(lblLogOutMenu);
+		
+		JLabel lblCloseDashboard = new JLabel("X");
+		lblCloseDashboard.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int optionYes=JOptionPane.showConfirmDialog(null,"Are you sure you want to close application?");  
+				if(optionYes ==JOptionPane.YES_OPTION){  
+					System.exit(0);
+				}  
+				
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblCloseDashboard.setForeground(Color.RED);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblCloseDashboard.setForeground(Color.WHITE);
+			}
+		});
+		lblCloseDashboard.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCloseDashboard.setForeground(new Color(255, 255, 255));
+		lblCloseDashboard.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCloseDashboard.setBounds(628, 0, 26, 22);
+		contentPane.add(lblCloseDashboard);
 	}
 	
 	private class MenuButtonMouseAdampter extends MouseAdapter{
@@ -110,12 +142,12 @@ public class Dashboard extends JFrame {
 		
 		@Override
 		public void mouseExited (MouseEvent e) {
-			panel.setBackground(new Color(47, 79, 79));
+			panel.setBackground(new Color(51, 102, 102));
 		}
 		
 		@Override
 		public void mousePressed (MouseEvent e) {
-			panel.setBackground(new Color(47, 79, 79));
+			panel.setBackground(new Color(51, 153, 153));
 		}
 		
 		@Override
