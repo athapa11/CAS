@@ -13,6 +13,9 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
@@ -30,18 +33,6 @@ public class AddProduct extends JDialog {
 	private JTextField txtRetailPrice;
 	private JTextField txtAdditionalInfo;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			JDialogAddProduct dialog = new JDialogAddProduct();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -322,6 +313,25 @@ public class AddProduct extends JDialog {
 		String originalCost = txtOriginalCost.getText();
 		String retailPrice = txtRetailPrice.getText();
 		String additionalInfo = txtAdditionalInfo.getText();
+		try {
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter("Stock.txt", true));
+			
+			writer.write(barcode + ", " + deviceName + ", " + deviceType + ", " + brand + ", " + colour + ", " + 
+			connectivity + ", " + stockQuantity + ", " + originalCost + ", " + retailPrice + ", " + additionalInfo + "\n");
+			
+			writer.close();
+			
+			System.out.println("Mouse Added");
+			PanelProduct parent = new PanelProduct();
+			parent.getProducts();
+			this.dispose();
+			
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 		
 	}
 }

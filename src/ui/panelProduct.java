@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +62,15 @@ public class PanelProduct extends JPanel {
 				// open JDilog to add product 
 				AddProduct addProduct = new AddProduct();
 				addProduct.setVisible(true);
+				
+				addProduct.addWindowListener(new WindowAdapter() 
+				{
+				  public void windowClosed(WindowEvent e)
+				  {
+					  productTableModel.setRowCount(0);
+					  getProducts();				    
+				  }
+				});
 			}
 		});
 		lblAddProduct.setHorizontalAlignment(SwingConstants.CENTER);
