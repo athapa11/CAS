@@ -51,7 +51,7 @@ public class Dashboard extends JFrame {
 	public Dashboard() {
 		setBackground(new Color(0, 153, 153));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 587);
+		setBounds(100, 100, 1190, 587);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -119,6 +119,7 @@ public class Dashboard extends JFrame {
 					Login login = new Login();
 					login.setVisible(true);
 					Dashboard.this.dispose();
+					//UserSession.cleanUserSession();
 				}  
 				
 			} 
@@ -157,11 +158,11 @@ public class Dashboard extends JFrame {
 		lblCloseDashboard.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCloseDashboard.setForeground(new Color(255, 255, 255));
 		lblCloseDashboard.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCloseDashboard.setBounds(974, 0, 26, 22);
+		lblCloseDashboard.setBounds(1164, 0, 26, 22);
 		contentPane.add(lblCloseDashboard);
 		
 		JPanel panelMainContent = new JPanel();
-		panelMainContent.setBounds(198, 104, 802, 483);
+		panelMainContent.setBounds(198, 104, 992, 483);
 		contentPane.add(panelMainContent);
 		panelMainContent.setLayout(null);
 		

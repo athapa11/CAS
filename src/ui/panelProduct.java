@@ -12,7 +12,7 @@ public class PanelProduct extends JPanel {
 	public PanelProduct() {
 		setForeground(new Color(0, 0, 0));
 		setBackground(new Color(255, 255, 255));
-		setBounds(0, 0, 802, 483);
+		setBounds(0, 0, 992, 483);
 		setLayout(null);
 		setVisible(true);
 		

@@ -11,7 +11,7 @@ public class PanelProfile extends JPanel {
 	 */
 	public PanelProfile() {
 		setBackground(new Color(255, 255, 255));
-		setBounds(0, 0, 802, 483);
+		setBounds(0, 0, 992, 483);
 		setLayout(null);
 		setVisible(true);
 		
