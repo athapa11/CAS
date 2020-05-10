@@ -1,6 +1,9 @@
 package ui;
-import javax.swing.JPanel;
+
+import java.awt.Color;
+
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,6 +16,11 @@ import java.util.Vector;
 import Main.*;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+
+
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class PanelProduct extends JPanel {
@@ -30,12 +38,42 @@ public class PanelProduct extends JPanel {
 		setBounds(0, 0, 992, 483);
 		setLayout(null);
 		setVisible(true);
+	
 		
-		JLabel lblNewLabel = new JLabel("Products");
-		lblNewLabel.setForeground(new Color(102, 102, 102));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(6, 6, 774, 27);
-		add(lblNewLabel);
+		JPanel panelProductHeading = new JPanel();
+		panelProductHeading.setBackground(new Color(102, 153, 153));
+		panelProductHeading.setBounds(0, 0, 992, 55);
+		add(panelProductHeading);
+		panelProductHeading.setLayout(null);
+		
+		JLabel lblProductTitle = new JLabel("Products");
+		lblProductTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblProductTitle.setBounds(0, 0, 213, 55);
+		panelProductHeading.add(lblProductTitle);
+		lblProductTitle.setForeground(new Color(255, 255, 255));
+		lblProductTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel lblAddProduct = new JLabel("Add Product");
+		lblAddProduct.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// open JDilog to add product 
+				JDialogAddProduct addProduct = new JDialogAddProduct();
+				addProduct.setVisible(true);
+			}
+		});
+		lblAddProduct.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAddProduct.setForeground(Color.WHITE);
+		lblAddProduct.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblAddProduct.setBounds(636, 12, 165, 31);
+		panelProductHeading.add(lblAddProduct);
+		
+		JLabel lblCart = new JLabel("Cart");
+		lblCart.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCart.setForeground(Color.WHITE);
+		lblCart.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCart.setBounds(899, 14, 78, 27);
+		panelProductHeading.add(lblCart);
 		
 		JScrollPane scrollTableProducts = new JScrollPane();
 		scrollTableProducts.setBounds(142, 42, 789, 382);
@@ -137,5 +175,7 @@ public class PanelProduct extends JPanel {
 		{
 			fileScanner.close();
 		}
+	}
+
 	}
 }

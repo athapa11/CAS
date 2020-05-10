@@ -4,6 +4,9 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import auth.User;
+import auth.UserSession;
+
 public class PanelProfile extends JPanel {
 
 	/**
@@ -19,6 +22,8 @@ public class PanelProfile extends JPanel {
 		lblNewLabel.setForeground(new Color(153, 153, 153));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(0, 0, 802, 39);
+		
+		User currentUser = UserSession.getCurrentUser();
 		add(lblNewLabel);
 	}
 
