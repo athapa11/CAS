@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelProduct extends JPanel {
 
@@ -33,17 +35,25 @@ public class PanelProduct extends JPanel {
 		lblProductTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblAddProduct = new JLabel("Add Product");
+		lblAddProduct.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// open JDilog to add product 
+				JDialogAddProduct addProduct = new JDialogAddProduct();
+				addProduct.setVisible(true);
+			}
+		});
 		lblAddProduct.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAddProduct.setForeground(Color.WHITE);
 		lblAddProduct.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblAddProduct.setBounds(656, 12, 165, 31);
+		lblAddProduct.setBounds(636, 12, 165, 31);
 		panelProductHeading.add(lblAddProduct);
 		
 		JLabel lblCart = new JLabel("Cart");
 		lblCart.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCart.setForeground(Color.WHITE);
 		lblCart.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCart.setBounds(826, 14, 78, 27);
+		lblCart.setBounds(899, 14, 78, 27);
 		panelProductHeading.add(lblCart);
 	}
 }
