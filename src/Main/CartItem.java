@@ -1,3 +1,4 @@
+package Main;
 
 
 public class CartItem {
@@ -8,7 +9,7 @@ public class CartItem {
       this.product = product;
       this.quantity = quantity;
     }
-
+/*
     public String getTitle() {
         return product.getTitle();
     }
@@ -26,5 +27,5 @@ public class CartItem {
     }
     public float getTotalCost() {
         return product.getPrice()*this.quantity;
-    }
+    } */
 }

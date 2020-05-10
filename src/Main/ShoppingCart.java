@@ -1,3 +1,4 @@
+package Main;
 import java.util.ArrayList;
 
 
@@ -13,7 +14,7 @@ public class ShoppingCart {
  public void addCartItem(Product product, int quantity) {
    CartItem cartItem = new CartItem(product, quantity);
    cartItems.add(cartItem);
-   calculateOrderTotal();
+   //calculateOrderTotal();
  }
 
  public void addCartItem(CartItem cartItem) {
@@ -40,7 +41,7 @@ public class ShoppingCart {
  public void setOrderTotal(double dblOrderTotal) {
   this.dblOrderTotal = dblOrderTotal;
  }
-
+/*
  protected void calculateOrderTotal() {
   double dblTotal = 0;
   for(int counter=0;counter<cartItems.size();counter++) {
@@ -49,6 +50,6 @@ public class ShoppingCart {
 
   }
   setOrderTotal(dblTotal);
- }
+ } */
 
 }
