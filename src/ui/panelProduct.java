@@ -1,44 +1,44 @@
 package ui;
 
 import java.awt.Color;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
-
-import java.awt.Color;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Vector;
-
-import Main.*;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-
-
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+
+import Main.Product;
+import auth.*;
 
 
 public class PanelProduct extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tableProducts;
-	private String col[] = {"Barcode", "Name", "Type", "Brand", "Colour", "Connectivity", "In stock", "Original cost",
-			"Retail price", "Additional information"};
 
-	private DefaultTableModel productTableModel = new DefaultTableModel(col, 0);
+	private DefaultTableModel productTableModel;
+	
+	private User currentUser = new User(101, "user1", "Smith", 12, "LE11 3TU", "Loughborough", "admin");
 	                                            // The 0 argument is number rows.
+	private int lastColIndex = currentUser.isAdmin() ? 7 : 6;
 	public PanelProduct() {
 		setForeground(new Color(0, 0, 0));
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, 0, 992, 483);
 		setLayout(null);
 		setVisible(true);
-	
+		prepareProductcolumns();
 		
 		JPanel panelProductHeading = new JPanel();
 		panelProductHeading.setBackground(new Color(102, 153, 153));
@@ -76,41 +76,36 @@ public class PanelProduct extends JPanel {
 		panelProductHeading.add(lblCart);
 		
 		JScrollPane scrollTableProducts = new JScrollPane();
-		scrollTableProducts.setBounds(142, 42, 789, 382);
+		scrollTableProducts.setBounds(0, 55, 992, 382);
 		add(scrollTableProducts);
 		
 		
 
 		tableProducts = new JTable(productTableModel);
+
+		tableProducts.getColumnModel().getColumn(lastColIndex).setPreferredWidth(280);
+		tableProducts.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		scrollTableProducts.setViewportView(tableProducts);
 		getProducts();
 	
 	}
 	
 	
-	
-	
 	private void getProducts()
 	{
 		Scanner fileScanner = null;
 		ArrayList<Product> products = new ArrayList<Product>();
-		
 		try {
 			File stockFile = new File("Stock.txt");
-			fileScanner = new Scanner(stockFile);
+			fileScanner = new Scanner(stockFile);			
 			
-			Mouse mouse = null;
-			Keyboard keyboard = null;
-			
-			while (fileScanner.hasNextLine()) 
-			{
-				String[] attributes = fileScanner.nextLine().split(",");
-				
-				if (attributes[1].equals("mouse")) 
+				while (fileScanner.hasNextLine()) 
 				{
-					mouse = new Mouse(
+					String[] attributes = fileScanner.nextLine().split(",");				
+					
+					Product product = 	new Product (
 							Integer.parseInt(attributes[0].trim()),
-							attributes[1].trim(), 
+							attributes[1].trim(),
 							attributes[2].trim(), 
 							attributes[3].trim(), 
 							attributes[4].trim(), 
@@ -118,53 +113,11 @@ public class PanelProduct extends JPanel {
 							Integer.parseInt(attributes[6].trim()), 
 							Double.parseDouble(attributes[7].trim()), 
 							Double.parseDouble(attributes[8].trim()), 
-							Integer.parseInt(attributes[9].trim())
+							attributes[9].trim() 
 							);
-					products.add(mouse);
-					products.add(keyboard);
-					Object[] data = {Integer.parseInt(attributes[0].trim()),
-							attributes[1].trim(), 
-							attributes[2].trim(), 
-							attributes[3].trim(), 
-							attributes[4].trim(), 
-							attributes[5].trim(), 
-							Integer.parseInt(attributes[6].trim()), 
-							Double.parseDouble(attributes[7].trim()), 
-							Double.parseDouble(attributes[8].trim()), 
-							Integer.parseInt(attributes[9].trim())};
-					productTableModel.addRow(data);
-				}
-				else 
-				{
-					keyboard = new Keyboard(
-							Integer.parseInt(attributes[0].trim()), 
-							attributes[1].trim(), 
-							attributes[2].trim(), 
-							attributes[3].trim(), 
-							attributes[4].trim(), 
-							attributes[5].trim(), 
-							Integer.parseInt(attributes[6].trim()), 
-							Double.parseDouble(attributes[7].trim()), 
-							Double.parseDouble(attributes[8].trim()), 
-							attributes[9].trim()
-							);
-					//System.out.println(keyboard);
-					products.add(keyboard);
-					Object[] data = {Integer.parseInt(attributes[0].trim()), 
-							attributes[1].trim(), 
-							attributes[2].trim(), 
-							attributes[3].trim(), 
-							attributes[4].trim(), 
-							attributes[5].trim(), 
-							Integer.parseInt(attributes[6].trim()), 
-							Double.parseDouble(attributes[7].trim()), 
-							Double.parseDouble(attributes[8].trim()), 
-							attributes[9].trim()};
-					productTableModel.addRow(data);
-
-				}
-				
-			}
+				products.add(product);
+					
+			}			
 		}
 		catch (Exception e) 
 		{
@@ -175,7 +128,71 @@ public class PanelProduct extends JPanel {
 		{
 			fileScanner.close();
 		}
+		fillProductTable(products);
 	}
 
+	private ArrayList<Product> sortProductsByQuantity(ArrayList<Product> products) {
+		Collections.sort(products, new Comparator<Product>(){
+		    public int compare(Product p1, Product p2) {
+		        
+		    	if (p1.getStockQuantity() > p2.getStockQuantity()) {
+		            return -1;
+		        } else if (p1.getStockQuantity() < p2.getStockQuantity()) {
+		            return 1;
+		        }
+		        return 0;
+		    }
+		});
+		
+		return products;
+		
 	}
+	
+	private void fillProductTable(ArrayList<Product> products) {
+		ArrayList<Product> sortedProducts = sortProductsByQuantity(products);
+		for (Product item : sortedProducts) {
+			String addtionalInfo = item.getFormattedAdditionalInfo();
+			if(currentUser.isAdmin()) {
+				Object[] data = {item.getBarcode(), item.getBrand(), item.getColour(), item.getConnectivity(), item.getStockQuantity(), item.getOriginalCost(), 
+						item.getRetailPrice(), addtionalInfo
+				};
+				productTableModel.addRow(data); 
+			
+		  }else {
+			  Object[] data = {item.getBarcode(), item.getBrand(), item.getColour(), item.getConnectivity(), item.getStockQuantity(), 
+						item.getRetailPrice(), addtionalInfo
+				};
+				productTableModel.addRow(data); 
+		  }
+	    }
+	}
+	
+	private void prepareProductcolumns() {
+		if(currentUser.isAdmin()) {
+			String col[] = {"Barcode", "Brand", "Colour", "Connectivity", "Quantity", "Original cost",
+					"Retail price", "Additional information", "Action"};
+			productTableModel = new DefaultTableModel(col, 0) {
+				 @Override
+				    public boolean isCellEditable(int row, int column) {
+				       //all cells false
+				       return false;
+				    }
+			};
+		}else {
+			String col[] = {"Barcode", "Brand", "Colour", "Connectivity", "Quantity",
+					"Retail price", "Additional information", "Action"};
+			
+			productTableModel = new DefaultTableModel(col, 0) {
+				 @Override
+				    public boolean isCellEditable(int row, int column) {
+				       //all cells false
+				       return false;
+				    }
+			};
+		}
+		
+	
+	}
+	
+	
 }

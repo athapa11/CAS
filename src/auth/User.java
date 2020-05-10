@@ -25,4 +25,8 @@ public class User {
 		this.city = city;
 		this.role = role;
 	}
+	
+	public boolean isAdmin() {
+		return this.role == "admin"; 
+	}
 }
