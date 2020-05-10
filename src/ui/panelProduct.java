@@ -58,7 +58,7 @@ public class PanelProduct extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// open JDilog to add product 
-				JDialogAddProduct addProduct = new JDialogAddProduct();
+				AddProduct addProduct = new AddProduct();
 				addProduct.setVisible(true);
 			}
 		});
@@ -91,7 +91,7 @@ public class PanelProduct extends JPanel {
 	}
 	
 	
-	private void getProducts()
+	public void getProducts()
 	{
 		Scanner fileScanner = null;
 		ArrayList<Product> products = new ArrayList<Product>();
