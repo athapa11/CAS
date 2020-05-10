@@ -52,7 +52,7 @@ public class JDialogAddProduct extends JDialog {
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		panelAddProductContent.setBackground(new Color(0, 153, 153));
-		panelAddProductContent.setBorder(new LineBorder(new Color(0, 153, 204)));
+		panelAddProductContent.setBorder(new LineBorder(new Color(0, 0, 0)));
 		getContentPane().add(panelAddProductContent, BorderLayout.CENTER);
 		panelAddProductContent.setLayout(null);
 		{
@@ -277,21 +277,27 @@ public class JDialogAddProduct extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setForeground(new Color(255, 255, 255));
+			buttonPane.setBackground(new Color(255, 255, 255));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Add Product");
-				okButton.addActionListener(new ActionListener() {
+				JButton btnAddProduct = new JButton("Add Product");
+				btnAddProduct.setForeground(new Color(255, 255, 255));
+				btnAddProduct.setBackground(new Color(0, 153, 153));
+				btnAddProduct.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						//add product after validation
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnAddProduct.setActionCommand("OK");
+				buttonPane.add(btnAddProduct);
+				getRootPane().setDefaultButton(btnAddProduct);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setForeground(new Color(255, 255, 255));
+				cancelButton.setBackground(new Color(0, 153, 153));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						setVisible(false);
