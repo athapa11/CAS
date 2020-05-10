@@ -31,7 +31,7 @@ public class PanelProduct extends JPanel {
 
 	private DefaultTableModel productTableModel;
 	
-	private User currentUser = new User(101, "user1", "Smith", 12, "LE11 3TU", "Loughborough", "admin");
+	private User currentUser = UserSession.getCurrentUser(); //new User(101, "user1", "Smith", 12, "LE11 3TU", "Loughborough", "admin");
 	                                            // The 0 argument is number rows.
 	private int lastColIndex = currentUser.isAdmin() ? 7 : 6;
 	public PanelProduct() {

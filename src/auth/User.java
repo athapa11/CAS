@@ -27,6 +27,6 @@ public class User {
 	}
 	
 	public boolean isAdmin() {
-		return this.role == "admin"; 
+		return this.role.equals("admin"); 
 	}
 }
