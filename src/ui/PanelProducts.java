@@ -1,7 +1,10 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -13,33 +16,42 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import Main.Product;
 import auth.*;
 
 
-public class PanelProduct extends JPanel {
+public class PanelProducts extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tableProducts;
 
 	private DefaultTableModel productTableModel;
 	
-	private User currentUser = UserSession.getCurrentUser(); 
-	                                            
-	private int lastColIndex = currentUser.isAdmin() ? 7 : 6;
-	public PanelProduct() {
+	private User currentUser = null; 	                                            
+	private int lastColIndex = 0;
+	public PanelProducts() {
+		
 		setForeground(new Color(0, 0, 0));
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, 0, 992, 483);
 		setLayout(null);
 		setVisible(true);
+	    currentUser = UserSession.getCurrentUser(); 
+        
+		lastColIndex = currentUser.isAdmin() ? 7 : 6;
+		
 		prepareProductcolumns();
 		
 		JPanel panelProductHeading = new JPanel();
@@ -90,8 +102,6 @@ public class PanelProduct extends JPanel {
 		scrollTableProducts.setBounds(0, 55, 992, 382);
 		add(scrollTableProducts);
 		
-		
-
 		tableProducts = new JTable(productTableModel);
 
 		tableProducts.getColumnModel().getColumn(lastColIndex).setPreferredWidth(280);
@@ -204,6 +214,7 @@ public class PanelProduct extends JPanel {
 		
 	
 	}
+	
 	
 	
 }

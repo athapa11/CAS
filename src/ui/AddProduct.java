@@ -323,8 +323,8 @@ public class AddProduct extends JDialog {
 			writer.close();
 			
 			System.out.println("Mouse Added");
-			PanelProduct parent = new PanelProduct();
-			parent.getProducts();
+			//PanelProducts parent = new PanelProducts();
+			//parent.getProducts();
 			this.dispose();
 			
 		} 

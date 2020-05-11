@@ -26,7 +26,7 @@ public class Dashboard extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
-	private PanelProduct panelProduct;
+	private PanelProducts panelProducts;
 	private PanelProfile panelProfile;
 
 	/**
@@ -60,7 +60,7 @@ public class Dashboard extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		panelProduct = new PanelProduct();
+		panelProducts = new PanelProducts();
 		panelProfile = new PanelProfile();
 		
 		JPanel panelMenu = new JPanel();
@@ -78,7 +78,7 @@ public class Dashboard extends JFrame {
 		panelProductMenu.addMouseListener(new MenuButtonMouseAdampter(panelProductMenu) {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				menuClicked(panelProduct);
+				menuClicked(panelProducts);
 			}
 		});
 		panelProductMenu.setBackground(new Color(51, 102, 102));
@@ -167,7 +167,7 @@ public class Dashboard extends JFrame {
 		panelMainContent.setLayout(null);
 		
 		//add menu panel
-		panelMainContent.add(panelProduct);
+		panelMainContent.add(panelProducts);
 		panelMainContent.add(panelProfile);
 		
 		JLabel lblCurrentUser = new JLabel("User:");
@@ -194,13 +194,13 @@ public class Dashboard extends JFrame {
 		
 		
 		contentPane.add(lblCurrentUserValue);
-		panelProduct.setVisible(true);
+		panelProducts.setVisible(true);
 		
 		//menuClicked(panelProduct);
 	}
 	
 	public void menuClicked(JPanel panel) {
-	 panelProduct.setVisible(false);
+	 panelProducts.setVisible(false);
 	 panelProfile.setVisible(false);
 	 
 	 panel.setVisible(true);
