@@ -14,7 +14,7 @@ import java.awt.Color;
 import java.awt.Button;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
+//import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -29,7 +29,7 @@ public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
-	private JPasswordField passwordField;
+	//private JPasswordField passwordField;
 	
 	int xx,xy;
 
@@ -120,19 +120,19 @@ public class Login extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String username = textField.getText();
-				String password = passwordField.getText();
+				//String password = passwordField.getText();
 				
 				lblLoginError.setText("");
 				lblLoginError.setVisible(false);
 				
-				if(isEmptyOrNull(username) || isEmptyOrNull(password)) {
-					lblLoginError.setText("Please fill username and password");
+				if(isEmptyOrNull(username)) {
+					lblLoginError.setText("Please fill username");
 					lblLoginError.setVisible(true);
 				}else {
 					 //check log in
 					 Auth auth = new Auth();
-					 if(!auth.isValidUser(username, password)) {
-						 lblLoginError.setText("Invalid username or password");
+					 if(!auth.isValidUser(username)) {
+						 lblLoginError.setText("Invalid");
 							lblLoginError.setVisible(true);
 					 }else {
 						setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -157,13 +157,13 @@ public class Login extends JFrame {
 		lblUsername.setBounds(395, 58, 114, 14);
 		contentPane.add(lblUsername);
 		
-		JLabel lblPassword = new JLabel("PASSWORD");
+		/*JLabel lblPassword = new JLabel("PASSWORD");
 		lblPassword.setBounds(395, 131, 96, 14);
-		contentPane.add(lblPassword);
+		contentPane.add(lblPassword);*/
 		
-		passwordField = new JPasswordField();
+		/*passwordField = new JPasswordField();
 		passwordField.setBounds(395, 156, 283, 36);
-		contentPane.add(passwordField);
+		contentPane.add(passwordField);*/
 		
 		
 		JLabel lblClose = new JLabel("X");
