@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ShoppingCart {
 
- private ArrayList<CartItem> cartItems = new ArrayList<CartItem>();
+ private static ArrayList<CartItem> cartItems = new ArrayList<CartItem>();
  private double dblOrderTotal ;
 
  public int getLineItemCount() {
@@ -16,6 +16,11 @@ public class ShoppingCart {
    cartItems.add(cartItem);
    calculateOrderTotal();
  }
+ 
+ public void remvoeCartItem(int itemIndex) {
+	   cartItems.remove(itemIndex);
+	   calculateOrderTotal();
+	 }
 
  public void addCartItem(CartItem cartItem) {
   cartItems.add(cartItem);
