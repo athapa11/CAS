@@ -16,12 +16,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
@@ -29,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import Main.Product;
+import Main.ShoppingCart;
 import auth.*;
 
 
@@ -38,9 +41,10 @@ public class PanelProducts extends JPanel {
 	private JTable tableProducts;
 
 	private DefaultTableModel productTableModel;
-	
+	ArrayList<Product> sortedProducts = new ArrayList<Product> ();
 	private User currentUser = null; 	                                            
 	private int lastColIndex = 0;
+	ShoppingCart cart = new ShoppingCart();
 	public PanelProducts() {
 		
 		setForeground(new Color(0, 0, 0));
@@ -103,6 +107,8 @@ public class PanelProducts extends JPanel {
 		add(scrollTableProducts);
 		
 		tableProducts = new JTable(productTableModel);
+		tableProducts.getColumnModel().getColumn(lastColIndex+1).setCellRenderer(new CustomButtonRenderer());;
+		tableProducts.getColumnModel().getColumn(lastColIndex+1).setCellEditor(new ActionButtonEditor(new JTextField()));
 
 		tableProducts.getColumnModel().getColumn(lastColIndex).setPreferredWidth(280);
 		tableProducts.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -151,6 +157,7 @@ public class PanelProducts extends JPanel {
 		}
 		fillProductTable(products);
 	}
+	
 
 	private ArrayList<Product> sortProductsByQuantity(ArrayList<Product> products) {
 		Collections.sort(products, new Comparator<Product>(){
@@ -170,18 +177,18 @@ public class PanelProducts extends JPanel {
 	}
 	
 	private void fillProductTable(ArrayList<Product> products) {
-		ArrayList<Product> sortedProducts = sortProductsByQuantity(products);
+		sortedProducts = sortProductsByQuantity(products);
 		for (Product item : sortedProducts) {
 			String addtionalInfo = item.getFormattedAdditionalInfo();
 			if(currentUser.isAdmin()) {
 				Object[] data = {item.getBarcode(), item.getBrand(), item.getColour(), item.getConnectivity(), item.getStockQuantity(), item.getOriginalCost(), 
-						item.getRetailPrice(), addtionalInfo
+						item.getRetailPrice(), addtionalInfo, "Update"
 				};
 				productTableModel.addRow(data); 
 			
 		  }else {
 			  Object[] data = {item.getBarcode(), item.getBrand(), item.getColour(), item.getConnectivity(), item.getStockQuantity(), 
-						item.getRetailPrice(), addtionalInfo
+						item.getRetailPrice(), addtionalInfo , "Add to cart"
 				};
 				productTableModel.addRow(data); 
 		  }
@@ -196,7 +203,7 @@ public class PanelProducts extends JPanel {
 				 @Override
 				    public boolean isCellEditable(int row, int column) {
 				       //all cells false
-				       return false;
+				       return true;
 				    }
 			};
 		}else {
@@ -207,7 +214,7 @@ public class PanelProducts extends JPanel {
 				 @Override
 				    public boolean isCellEditable(int row, int column) {
 				       //all cells false
-				       return false;
+				       return true;
 				    }
 			};
 		}
@@ -217,4 +224,103 @@ public class PanelProducts extends JPanel {
 	
 	
 	
+
+
+
+	class CustomButtonRenderer extends JButton implements  TableCellRenderer
+	{
+		private static final long serialVersionUID = 1L;
+	
+		public CustomButtonRenderer() {
+		  setOpaque(true);
+		}
+		
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object obj,
+		    boolean selected, boolean focused, int row, int col) {
+		
+		    setText((obj==null) ? "":obj.toString());
+		
+		  return this;
+		}
+	
+	}
+
+
+	class ActionButtonEditor extends DefaultCellEditor
+	{
+		private static final long serialVersionUID = 1L;
+		protected JButton actionBtn;
+		private String btnLabel;
+		private Boolean isClicked;
+		Product selectedProduct = null;
+	
+		public ActionButtonEditor(JTextField txt) {
+			super(txt);
+	
+			actionBtn=new JButton();
+			actionBtn.setOpaque(true);
+	
+			actionBtn.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			
+			      fireEditingStopped();
+			    }
+			});
+		}
+		 
+		  @Override
+		  public Component getTableCellEditorComponent(JTable table, Object obj,
+		      boolean selected, int row, int col) {
+			  setSelectedProduct(row);
+			  btnLabel=(obj==null) ? "":obj.toString();
+			  actionBtn.setText(btnLabel);
+		     isClicked=true;
+		    return actionBtn;
+		  }
+	
+		   @Override
+		  public Object getCellEditorValue() {
+	
+		     if(isClicked)
+		      {
+		   	  System.out.println("label : "  + btnLabel);
+		   	  System.out.println("selected product: "  + selectedProduct.getdeviceName());
+			   	  if(btnLabel.equals("Update")) {
+			   		 JOptionPane.showMessageDialog(actionBtn, btnLabel+" Clicked");
+			   	  }
+			   	  else{
+			   		  AddItemToCart addItem = new AddItemToCart(selectedProduct);
+			   		  addItem.setVisible(true);
+			   	  }
+			       
+		      }
+		     isClicked=false;
+		    return new String(btnLabel);
+		  }
+	
+		   @Override
+		  public boolean stopCellEditing() {
+	
+			   isClicked=false;
+		    return super.stopCellEditing();
+		  }
+	
+		   @Override
+		  protected void fireEditingStopped() {
+		    super.fireEditingStopped();
+		  }
+		   
+		   public void setSelectedProduct (int selectedIndex) {
+				for (int i = 0; i < sortedProducts.size(); i ++) {
+					if(selectedIndex == i) {
+						selectedProduct =  sortedProducts.get(i);
+						break;
+					}
+					
+				}
+			}
+			
+	}
 }
