@@ -32,22 +32,26 @@ import Main.Product;
 import auth.*;
 
 
-public class PanelProduct extends JPanel {
+public class PanelProducts extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tableProducts;
 
 	private DefaultTableModel productTableModel;
 	
-	private User currentUser = UserSession.getCurrentUser(); 
-	                                            
-	private int lastColIndex = currentUser.isAdmin() ? 7 : 6;
-	public PanelProduct() {
+	private User currentUser = null; 	                                            
+	private int lastColIndex = 0;
+	public PanelProducts() {
+		
 		setForeground(new Color(0, 0, 0));
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, 0, 992, 483);
 		setLayout(null);
 		setVisible(true);
+	    currentUser = UserSession.getCurrentUser(); 
+        
+		lastColIndex = currentUser.isAdmin() ? 7 : 6;
+		
 		prepareProductcolumns();
 		
 		JPanel panelProductHeading = new JPanel();
@@ -98,14 +102,7 @@ public class PanelProduct extends JPanel {
 		scrollTableProducts.setBounds(0, 55, 992, 382);
 		add(scrollTableProducts);
 		
-		
-
 		tableProducts = new JTable(productTableModel);
-		
-		TableCellRenderer buttonRenderer = new JTableButtonRenderer();
-		tableProducts.getColumn("Button1").setCellRenderer(buttonRenderer);
-		tableProducts.getColumn("Button2").setCellRenderer(buttonRenderer);
-		tableProducts.addMouseListener(new JTableButtonMouseListener(tableProducts));
 
 		tableProducts.getColumnModel().getColumn(lastColIndex).setPreferredWidth(280);
 		tableProducts.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -217,80 +214,6 @@ public class PanelProduct extends JPanel {
 		
 	
 	}
-	
-	public static class JTableModel extends AbstractTableModel {
-		private static final long serialVersionUID = 1L;
-		private static String[] COLUMN_NAMES = new String[] {"Id", "Stuff", "Button1", "Button2"};
-		private static final Class<?>[] COLUMN_TYPES = new Class<?>[] {Integer.class, String.class, JButton.class,  JButton.class};
-		
-		@Override public int getColumnCount() {
-			return COLUMN_NAMES.length;
-		}
-
-		@Override public int getRowCount() {
-			return 4;
-		}
-		
-		@Override public String getColumnName(int columnIndex) {
-	        return COLUMN_NAMES[columnIndex];
-	    }
-		
-		@Override public Class<?> getColumnClass(int columnIndex) {
-			return COLUMN_TYPES[columnIndex];
-		}
-
-		@Override public Object getValueAt(final int rowIndex, final int columnIndex) {
-			switch (columnIndex) {
-				case 0: return rowIndex;
-				case 1: return "Text for "+rowIndex;
-				case 2: // fall through
-				case 3: final JButton button = new JButton(COLUMN_NAMES[columnIndex]);
-						button.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(button), 
-										"Button clicked for row "+rowIndex);
-							}
-						});
-						return button;
-				default: return "Error";
-			}
-		}	
-	}
-	
-	private static class JTableButtonRenderer implements TableCellRenderer {		
-		@Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			JButton button = (JButton)value;
-			if (isSelected) {
-				button.setForeground(table.getSelectionForeground());
-				button.setBackground(table.getSelectionBackground());
-		    } else {
-		    	button.setForeground(table.getForeground());
-		    	button.setBackground(UIManager.getColor("Button.background"));
-		    }
-			return button;	
-		}
-	}
-	
-	private static class JTableButtonMouseListener extends MouseAdapter {
-		private final JTable table;
-		
-		public JTableButtonMouseListener(JTable table) {
-			this.table = table;
-		}
-
-		public void mouseClicked(MouseEvent e) {
-			int column = table.getColumnModel().getColumnIndexAtX(e.getX());
-			int row    = e.getY()/table.getRowHeight(); 
-
-			if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0) {
-			    Object value = table.getValueAt(row, column);
-			    if (value instanceof JButton) {
-			    	((JButton)value).doClick();
-			    }
-			}
-		}
-	}
-	
 	
 	
 	
