@@ -6,13 +6,7 @@ import java.util.Scanner;
 
 public class Auth 
 {
-	
-	public Auth() 
-	{
-		
-	}
-	
-	public boolean isValidUser(String userName, String password)
+	public boolean isValidUser(String userName)
 	{
 		boolean isLoginSuccess = false;
 		Scanner fileScanner = null;
@@ -26,9 +20,9 @@ public class Auth
 				String[] attributes = fileScanner.nextLine().split(",");
 				
 				String fUserName = attributes[1].trim();
-				String fPassword = attributes[2].trim(); // surname as password
 				
-				if(fUserName.equals(userName) && fPassword.equals(password)) {
+				if(fUserName.equals(userName)) 
+				{
 					isLoginSuccess = true;
 					User user = new User(
 							Integer.parseInt(attributes[0].trim()),
@@ -50,9 +44,7 @@ public class Auth
 					fileScanner.close();
 					return isLoginSuccess;					
 				}
-				
 			}
-			
 		}
 		catch (Exception e) 
 		{
