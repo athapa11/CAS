@@ -12,9 +12,7 @@ public class User {
 	
 	protected User currentUser;
 	
-	public User() {
-		
-	}
+	public User() {}
 	
 	public User (int userId, String username, String surname, String postcode, String role) {
 		this.userId = userId;
@@ -46,7 +44,7 @@ public class User {
 	}
 	
 	// Scan UserAccounts.txt to check if entered user name is valid
-	public boolean isValidUser(String username){
+	public boolean isValidUser(String username) {
 		boolean isLoginSuccess = false;
 		Scanner fileScanner = null;
 		

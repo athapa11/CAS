@@ -1,12 +1,18 @@
 package Main;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class Product {
+import javax.swing.JTextField;
+
+public class Product 
+{
 	private int barcode;
 	private String deviceName;
 	private String deviceType;
@@ -21,8 +27,9 @@ public class Product {
 	
 	public Product() {}
 	
-	public Product(int barcode, String deviceName, String deviceType, String brand, String colour, String connectivity, int stockQuantity, 
-			double originalCost, double retailPrice, String additionalInfo){
+	public Product(int barcode, String deviceName, String deviceType, String brand, String colour, String connectivity, 
+			int stockQuantity, double originalCost, double retailPrice, String additionalInfo)
+	{
 		this.barcode = barcode;
 		this.deviceName = deviceName;
 		this.brand = brand;
@@ -47,8 +54,10 @@ public class Product {
 	public String getDeviceName() {return this.deviceType;}
 	public String getAdditionalInfo() {return this.additionalInfo;}
 	
-	public String getFormattedAdditionalInfo() {
-		if(this.deviceName.equals("keyboard")) {
+	public String getFormattedAdditionalInfo() 
+	{
+		if(this.deviceName.equals("keyboard"))
+		{
 		  return "Keyboard Type : " + this.deviceType + ", Keyboard Layout : "+ this.additionalInfo;
 		} else {
 			return "Mouse Type : " + this.deviceType + ", Number of Buttons : "+ this.additionalInfo;
@@ -56,7 +65,7 @@ public class Product {
 	}
 	
 	// Sort products by stock quantity
-	public ArrayList<Product> sortProductsByQuantity(ArrayList<Product> products) 
+	public static ArrayList<Product> sortProductsByQuantity(ArrayList<Product> products) 
 	{
 		Collections.sort(products, new Comparator<Product>()
 		{
@@ -78,63 +87,89 @@ public class Product {
 	}
 	
 	// View Stock.txt
-		public ArrayList<Product> getProducts() {
-			Scanner fileScanner = null;
-			ArrayList<Product> products = new ArrayList<Product>();
-			try {
-				File stockFile = new File("Stock.txt");
-				fileScanner = new Scanner(stockFile);			
+	public static ArrayList<Product> getProducts() 
+	{
+		Scanner fileScanner = null;
+		ArrayList<Product> products = new ArrayList<Product>();
+		try {
+			File stockFile = new File("Stock.txt");
+			fileScanner = new Scanner(stockFile);			
 				
-					while (fileScanner.hasNextLine()){
-						String[] attributes = fileScanner.nextLine().split(",");				
+			while (fileScanner.hasNextLine())
+			{
+				String[] attributes = fileScanner.nextLine().split(",");				
 						
-						Product product = new Product (
-								Integer.parseInt(attributes[0].trim()),
-								attributes[1].trim(),
-								attributes[2].trim(), 
-								attributes[3].trim(), 
-								attributes[4].trim(), 
-								attributes[5].trim(), 
-								Integer.parseInt(attributes[6].trim()), 
-								Double.parseDouble(attributes[7].trim()), 
-								Double.parseDouble(attributes[8].trim()), 
-								attributes[9].trim() 
-								);
-						products.add(product);
-					}			
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
-			finally {
-				fileScanner.close();
-			}
-			return products;
+				Product product = new Product (
+						Integer.parseInt(attributes[0].trim()),
+						attributes[1].trim(),
+						attributes[2].trim(), 
+						attributes[3].trim(), 
+						attributes[4].trim(), 
+						attributes[5].trim(), 
+						Integer.parseInt(attributes[6].trim()), 
+						Double.parseDouble(attributes[7].trim()), 
+						Double.parseDouble(attributes[8].trim()), 
+						attributes[9].trim() 
+						);
+				products.add(product);
+			}			
 		}
-		
-		public ArrayList<Product> getUKLayoutKeyboards() 
+		catch (Exception e) 
 		{
-			ArrayList<Product> products = getProducts();
-			for(Product per : products) 
-			{
-				if (((Product)per).getAdditionalInfo().contains("UK")) 
-					{
-						System.out.println(per.toString());
-					}
-			}
-			return products;
-		}
-		
-		public ArrayList<Product> getProductsByBrand()
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} 
+		finally 
 		{
-			ArrayList<Product> products = getProducts();
-			for(Product per : products) 
+			fileScanner.close();
+		}
+		return products;
+	}
+		
+	public static ArrayList<Product> getUKLayoutKeyboards() 
+	{
+		ArrayList<Product> products = getProducts();
+		for(Product per : products) 
+		{
+			if (((Product)per).getAdditionalInfo().contains("UK")) 
 			{
-				if (((Product)per).getBrand().equals(/*whatever brand name*/))
-				{
-					System.out.println(per.toString());
-				}
+				System.out.println(per.toString());
 			}
 		}
+		return products;
+	}
+		
+	/*public ArrayList<Product> getProductsByBrand()
+	{
+		ArrayList<Product> products = getProducts();
+		for(Product per : products) 
+		{
+			if (((Product)per).getBrand().equals(whatever brand name))
+			{
+				System.out.println(per.toString());
+			}
+		}
+	}*/
+	
+	// Add product after validation
+	public static void addProductToStock(JTextField txtBarcode, JTextField txtDeviceName, JTextField txtDeviceType, JTextField txtBrand, 
+			JTextField txtColour, JTextField txtConnectivity, JTextField txtQuantity, JTextField txtOriginalCost, 
+			JTextField txtRetailPrice, JTextField txtAdditionalInfo)
+	{
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("Stock.txt", true));
+				
+			writer.write(txtBarcode.getText() + ", " + txtDeviceName.getText() + ", " + txtDeviceType.getText() + ", " + 
+			txtBrand.getText() + ", " + txtColour.getText() + ", " + txtConnectivity.getText() + ", " + txtQuantity.getText() + ", " + 
+			txtOriginalCost.getText() + ", " + txtRetailPrice.getText() + ", " + txtAdditionalInfo.getText() + "\n");
+				
+			writer.close();
+				
+			System.out.println("Product Added");
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 }

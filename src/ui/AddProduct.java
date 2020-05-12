@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
+import Main.Product;
+
 public class AddProduct extends JDialog {
 
 	/**
@@ -282,8 +284,8 @@ public class AddProduct extends JDialog {
 				btnAddProduct.setBackground(new Color(0, 153, 153));
 				btnAddProduct.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
-						saveProductTofile();
+						Product.addProductToStock(txtBarcode, txtDeviceName, txtDeviceType, txtBrand, txtColour, txtConnectivity, 
+								txtQuantity, txtOriginalCost, txtRetailPrice, txtAdditionalInfo);
 					}
 				});
 				btnAddProduct.setActionCommand("OK");
@@ -305,24 +307,5 @@ public class AddProduct extends JDialog {
 		}
 	}
 	
-	// Add product after validation
-	private void saveProductTofile() {
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter("Stock.txt", true));
-			
-			writer.write(txtBarcode.getText() + ", " + txtDeviceName.getText() + ", " + txtDeviceType.getText() + ", " + 
-			txtBrand.getText() + ", " + txtColour.getText() + ", " + txtConnectivity.getText() + ", " + txtQuantity.getText() + ", " + 
-			txtOriginalCost.getText() + ", " + txtRetailPrice.getText() + ", " + txtAdditionalInfo.getText() + "\n");
-			
-			writer.close();
-			
-			System.out.println("Product Added");
-			this.dispose();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
-	}
+	
 }
