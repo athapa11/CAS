@@ -41,14 +41,18 @@ public class PanelProducts extends JPanel {
 	private JTable tableProducts;
 
 	private DefaultTableModel productTableModel;
+	
 	ArrayList<Product> sortedProducts = new ArrayList<Product> ();
+	private Product productObject = new Product();
+	private ArrayList<Product> variable = productObject.getProducts();
+	
 	private User currentUser = null; 	                                            
 	private int lastColIndex = 0;
 	ShoppingCart cart = new ShoppingCart();
 	public PanelProducts() {
 		
 		setForeground(new Color(0, 0, 0));
-		setBackground(new Color(255, 255, 255));
+		setBackground(new Color(0, 153, 153));
 		setBounds(0, 0, 992, 483);
 		setLayout(null);
 		setVisible(true);
@@ -84,7 +88,7 @@ public class PanelProducts extends JPanel {
 				  public void windowClosed(WindowEvent e)
 				  {
 					  productTableModel.setRowCount(0);
-					  getProducts();				    
+					  fillProductTable(variable);
 				  }
 				});
 			}
@@ -113,80 +117,45 @@ public class PanelProducts extends JPanel {
 		tableProducts.getColumnModel().getColumn(lastColIndex).setPreferredWidth(280);
 		tableProducts.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		scrollTableProducts.setViewportView(tableProducts);
-		getProducts();
-	
-	}
-	
-	
-	public void getProducts()
-	{
-		Scanner fileScanner = null;
-		ArrayList<Product> products = new ArrayList<Product>();
-		try {
-			File stockFile = new File("Stock.txt");
-			fileScanner = new Scanner(stockFile);			
-			
-				while (fileScanner.hasNextLine()) 
-				{
-					String[] attributes = fileScanner.nextLine().split(",");				
-					
-					Product product = 	new Product (
-							Integer.parseInt(attributes[0].trim()),
-							attributes[1].trim(),
-							attributes[2].trim(), 
-							attributes[3].trim(), 
-							attributes[4].trim(), 
-							attributes[5].trim(), 
-							Integer.parseInt(attributes[6].trim()), 
-							Double.parseDouble(attributes[7].trim()), 
-							Double.parseDouble(attributes[8].trim()), 
-							attributes[9].trim() 
-							);
-				products.add(product);
-					
-			}			
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		finally 
-		{
-			fileScanner.close();
-		}
-		fillProductTable(products);
-	}
-	
-
-	private ArrayList<Product> sortProductsByQuantity(ArrayList<Product> products) {
-		Collections.sort(products, new Comparator<Product>(){
-		    public int compare(Product p1, Product p2) {
-		        
-		    	if (p1.getStockQuantity() > p2.getStockQuantity()) {
-		            return -1;
-		        } else if (p1.getStockQuantity() < p2.getStockQuantity()) {
-		            return 1;
-		        }
-		        return 0;
-		    }
-		});
 		
-		return products;
+		JLabel lblFilterByBrand = new JLabel("Filter By Brand :");
+		lblFilterByBrand.setForeground(new Color(255, 255, 255));
+		lblFilterByBrand.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblFilterByBrand.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFilterByBrand.setBounds(58, 438, 152, 45);
+		add(lblFilterByBrand);
 		
+		JLabel lblAsus = new JLabel("ASUS");
+		lblAsus.setForeground(new Color(255, 255, 255));
+		lblAsus.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblAsus.setBounds(215, 438, 152, 45);
+		add(lblAsus);
+		
+		JLabel lblFilterByBrand_1_1 = new JLabel("Filter By UK KEYBOARDS");
+		lblFilterByBrand_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFilterByBrand_1_1.setForeground(new Color(255, 255, 255));
+		lblFilterByBrand_1_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblFilterByBrand_1_1.setBounds(690, 438, 302, 45);
+		add(lblFilterByBrand_1_1);
+		fillProductTable(variable);
+	
 	}
 	
 	private void fillProductTable(ArrayList<Product> products) {
-		sortedProducts = sortProductsByQuantity(products);
-		for (Product item : sortedProducts) {
+		sortedProducts = productObject.sortProductsByQuantity(products);
+		for (Product item : sortedProducts) 
+		{
 			String addtionalInfo = item.getFormattedAdditionalInfo();
-			if(currentUser.isAdmin()) {
-				Object[] data = {item.getBarcode(), item.getBrand(), item.getColour(), item.getConnectivity(), item.getStockQuantity(), item.getOriginalCost(), 
-						item.getRetailPrice(), addtionalInfo, "Update"
+			if(currentUser.isAdmin()) 
+			{
+				Object[] data = {item.getBarcode(), item.getBrand(), item.getColour(), item.getConnectivity(), item.getStockQuantity(), 
+						item.getOriginalCost(), item.getRetailPrice(), addtionalInfo, "Update"
 				};
 				productTableModel.addRow(data); 
 			
-		  }else {
+		  }
+			else 
+		  {
 			  Object[] data = {item.getBarcode(), item.getBrand(), item.getColour(), item.getConnectivity(), item.getStockQuantity(), 
 						item.getRetailPrice(), addtionalInfo , "Add to cart"
 				};
@@ -194,41 +163,46 @@ public class PanelProducts extends JPanel {
 		  }
 	    }
 	}
-	
+
 	private void prepareProductcolumns() {
 		if(currentUser.isAdmin()) {
 			String col[] = {"Barcode", "Brand", "Colour", "Connectivity", "Quantity", "Original cost",
 					"Retail price", "Additional information", "Action"};
+			
 			productTableModel = new DefaultTableModel(col, 0) {
-				 @Override
-				    public boolean isCellEditable(int row, int column) {
-				       //all cells false
-				       return true;
-				    }
+				 /**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					//all cells false
+				    return true;
+				}
 			};
-		}else {
+		} else {
 			String col[] = {"Barcode", "Brand", "Colour", "Connectivity", "Quantity",
 					"Retail price", "Additional information", "Action"};
 			
 			productTableModel = new DefaultTableModel(col, 0) {
-				 @Override
-				    public boolean isCellEditable(int row, int column) {
-				       //all cells false
-				       return true;
-				    }
+				 /**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					//all cells false
+				    return true;
+				}
 			};
 		}
 		
 	
 	}
 	
-	
-	
-
-
-
-	class CustomButtonRenderer extends JButton implements  TableCellRenderer
-	{
+	class CustomButtonRenderer extends JButton implements  TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 	
 		public CustomButtonRenderer() {
@@ -246,9 +220,7 @@ public class PanelProducts extends JPanel {
 	
 	}
 
-
-	class ActionButtonEditor extends DefaultCellEditor
-	{
+	class ActionButtonEditor extends DefaultCellEditor {
 		private static final long serialVersionUID = 1L;
 		protected JButton actionBtn;
 		private String btnLabel;
@@ -270,57 +242,50 @@ public class PanelProducts extends JPanel {
 			});
 		}
 		 
-		  @Override
-		  public Component getTableCellEditorComponent(JTable table, Object obj,
-		      boolean selected, int row, int col) {
-			  setSelectedProduct(row);
-			  btnLabel=(obj==null) ? "":obj.toString();
-			  actionBtn.setText(btnLabel);
+		 @Override
+		 public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
+			 setSelectedProduct(row);
+			 btnLabel=(obj==null) ? "":obj.toString();
+			 actionBtn.setText(btnLabel);
 		     isClicked=true;
-		    return actionBtn;
+		     return actionBtn;
 		  }
 	
 		   @Override
-		  public Object getCellEditorValue() {
-	
-		     if(isClicked)
-		      {
-		   	  System.out.println("label : "  + btnLabel);
-		   	  System.out.println("selected product: "  + selectedProduct.getdeviceName());
-			   	  if(btnLabel.equals("Update")) {
-			   		 JOptionPane.showMessageDialog(actionBtn, btnLabel+" Clicked");
-			   	  }
-			   	  else{
+		 public Object getCellEditorValue()
+		 {
+			   if(isClicked) {
+				   System.out.println("label : "  + btnLabel);
+				   System.out.println("selected product: "  + selectedProduct.getdeviceName());
+				   if(btnLabel.equals("Update")) {
+					   JOptionPane.showMessageDialog(actionBtn, btnLabel+" Clicked");
+				   } else {
 			   		  AddItemToCart addItem = new AddItemToCart(selectedProduct);
 			   		  addItem.setVisible(true);
-			   	  }
-			       
-		      }
-		     isClicked=false;
-		    return new String(btnLabel);
-		  }
-	
-		   @Override
-		  public boolean stopCellEditing() {
-	
+			   		}
+			   }
 			   isClicked=false;
-		    return super.stopCellEditing();
-		  }
+			   return new String(btnLabel);
+		 }
 	
 		   @Override
-		  protected void fireEditingStopped() {
-		    super.fireEditingStopped();
-		  }
+		 public boolean stopCellEditing() {
+			   isClicked=false;
+			   return super.stopCellEditing();
+		 }
+	
+		   @Override
+		 protected void fireEditingStopped() {
+			   super.fireEditingStopped();
+		 }
 		   
-		   public void setSelectedProduct (int selectedIndex) {
-				for (int i = 0; i < sortedProducts.size(); i ++) {
-					if(selectedIndex == i) {
-						selectedProduct =  sortedProducts.get(i);
-						break;
-					}
-					
-				}
-			}
-			
+		 public void setSelectedProduct (int selectedIndex) {
+			 for (int i = 0; i < sortedProducts.size(); i ++) {
+				 if(selectedIndex == i) {
+					 selectedProduct =  sortedProducts.get(i);
+					 break;
+				 }
+			 }
+		 }	
 	}
 }
