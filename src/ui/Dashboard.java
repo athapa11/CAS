@@ -28,7 +28,6 @@ public class Dashboard extends JFrame {
 	
 	private PanelProducts panelProducts;
 	private PanelProfile panelProfile;
-	private PanelShoppingCart panelShoppingCart;
 
 	/**
 	 * Launch the application.
@@ -63,7 +62,7 @@ public class Dashboard extends JFrame {
 		
 		panelProducts = new PanelProducts();
 		panelProfile = new PanelProfile();
-		panelShoppingCart = new PanelShoppingCart();
+
 		JPanel panelMenu = new JPanel();
 		panelMenu.setBackground(new Color(51, 102, 102));
 		panelMenu.setBounds(0, 0, 197, 587);
@@ -170,7 +169,6 @@ public class Dashboard extends JFrame {
 		//add menu panel
 		panelMainContent.add(panelProducts);
 		panelMainContent.add(panelProfile);
-		panelMainContent.add(panelShoppingCart);
 		
 		JLabel lblCurrentUser = new JLabel("User:");
 		lblCurrentUser.setHorizontalAlignment(SwingConstants.RIGHT);
