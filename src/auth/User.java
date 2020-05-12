@@ -44,7 +44,7 @@ public class User {
 	}
 	
 	// Scan UserAccounts.txt to check if entered user name is valid
-	public boolean isValidUser(String username) {
+	public static boolean isValidUser(String username) {
 		boolean isLoginSuccess = false;
 		Scanner fileScanner = null;
 		
