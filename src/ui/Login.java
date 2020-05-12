@@ -120,7 +120,6 @@ public class Login extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String username = textField.getText();
-				//String password = passwordField.getText();
 				
 				lblLoginError.setText("");
 				lblLoginError.setVisible(false);
@@ -130,7 +129,7 @@ public class Login extends JFrame {
 					lblLoginError.setVisible(true);
 				}else {
 					 //check log in
-					 Auth auth = new Auth();
+					 User auth = new User();
 					 if(!auth.isValidUser(username)) {
 						 lblLoginError.setText("Invalid");
 							lblLoginError.setVisible(true);
@@ -156,15 +155,6 @@ public class Login extends JFrame {
 		JLabel lblUsername = new JLabel("USERNAME");
 		lblUsername.setBounds(395, 58, 114, 14);
 		contentPane.add(lblUsername);
-		
-		/*JLabel lblPassword = new JLabel("PASSWORD");
-		lblPassword.setBounds(395, 131, 96, 14);
-		contentPane.add(lblPassword);*/
-		
-		/*passwordField = new JPasswordField();
-		passwordField.setBounds(395, 156, 283, 36);
-		contentPane.add(passwordField);*/
-		
 		
 		JLabel lblClose = new JLabel("X");
 		lblClose.addMouseListener(new MouseAdapter() {
