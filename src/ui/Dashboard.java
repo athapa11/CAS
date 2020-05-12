@@ -105,7 +105,7 @@ public class Dashboard extends JFrame {
 		panelMenu.add(panelProfileMenu);
 		panelProfileMenu.setLayout(null);
 		
-		JLabel lblProfileMenu = new JLabel("Profile");
+		JLabel lblProfileMenu = new JLabel("Activity Log");
 		lblProfileMenu.setBounds(18, 5, 173, 29);
 		lblProfileMenu.setForeground(Color.WHITE);
 		lblProfileMenu.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -191,7 +191,7 @@ public class Dashboard extends JFrame {
 		lblCurrentUserValue.setBounds(895, 6, 83, 33);
 		User currentUser = UserSession.getCurrentUser();
 		if(currentUser != null ) {
-			lblCurrentUserValue.setText(currentUser.userName);
+			lblCurrentUserValue.setText(currentUser.username);
 		}
 		
 		

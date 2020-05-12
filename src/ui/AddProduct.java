@@ -21,6 +21,10 @@ import javax.swing.border.LineBorder;
 
 public class AddProduct extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel panelAddProductContent = new JPanel();
 	private JTextField txtBarcode;
 	private JTextField txtDeviceName;
@@ -301,32 +305,19 @@ public class AddProduct extends JDialog {
 		}
 	}
 	
+	// Add product after validation
 	private void saveProductTofile() {
-		//add product after validation
-		String barcode = txtBarcode.getText();
-		String deviceName = txtDeviceName.getText();
-		String deviceType = txtDeviceType.getText();
-		String brand = txtBrand.getText();
-		String colour = txtColour.getText();
-		String connectivity = txtConnectivity.getText();
-		String stockQuantity = txtQuantity.getText(); 
-		String originalCost = txtOriginalCost.getText();
-		String retailPrice = txtRetailPrice.getText();
-		String additionalInfo = txtAdditionalInfo.getText();
 		try {
-			
 			BufferedWriter writer = new BufferedWriter(new FileWriter("Stock.txt", true));
 			
-			writer.write(barcode + ", " + deviceName + ", " + deviceType + ", " + brand + ", " + colour + ", " + 
-			connectivity + ", " + stockQuantity + ", " + originalCost + ", " + retailPrice + ", " + additionalInfo + "\n");
+			writer.write(txtBarcode.getText() + ", " + txtDeviceName.getText() + ", " + txtDeviceType.getText() + ", " + 
+			txtBrand.getText() + ", " + txtColour.getText() + ", " + txtConnectivity.getText() + ", " + txtQuantity.getText() + ", " + 
+			txtOriginalCost.getText() + ", " + txtRetailPrice.getText() + ", " + txtAdditionalInfo.getText() + "\n");
 			
 			writer.close();
 			
-			System.out.println("Mouse Added");
-			//PanelProducts parent = new PanelProducts();
-			//parent.getProducts();
+			System.out.println("Product Added");
 			this.dispose();
-			
 		} 
 		catch (IOException e) 
 		{
