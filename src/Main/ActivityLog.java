@@ -27,7 +27,7 @@ public class ActivityLog {
 
 	
 	public void addActivity(CartItem item, String status, String paymentMethod) {
-		DateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String currentDate = df.format(new Date());
 		Product product = item.getProduct();
 		String quantity = Integer.toString(item.getQuantity());

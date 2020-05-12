@@ -30,8 +30,7 @@ public class Login extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	
+	private JComboBox cboUserName;
 	int xx,xy;
 
 	/**
@@ -106,7 +105,7 @@ public class Login extends JFrame {
 		
 		JLabel lblLoginError = new JLabel("");
 		lblLoginError.setForeground(new Color(204, 51, 0));
-		lblLoginError.setBounds(394, 225, 266, 27);
+		lblLoginError.setBounds(394, 207, 266, 27);
 		lblLoginError.setVisible(false);
 		contentPane.add(lblLoginError);
 		
@@ -120,17 +119,16 @@ public class Login extends JFrame {
 		Button button = new Button("Log In");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String username = textField.getText();
-				
+				String username = String.valueOf(cboUserName.getSelectedItem());
 				lblLoginError.setText("");
 				lblLoginError.setVisible(false);
 				
 				if(isEmptyOrNull(username)) {
-					lblLoginError.setText("Please fill username");
+					lblLoginError.setText("Please select username");
 					lblLoginError.setVisible(true);
 				}else {
 					//check log in
-					if(!auth.isValidUser(username)) {
+					if(!User.isValidUser(username)) {
 						lblLoginError.setText("Invalid");
 						lblLoginError.setVisible(true);
 					}else {
@@ -146,11 +144,6 @@ public class Login extends JFrame {
 		button.setBackground(Color.WHITE);
 		button.setBounds(394, 239, 266, 36);
 		contentPane.add(button);
-		
-		textField = new JTextField();
-		textField.setBounds(426, 368, 266, 36);
-		contentPane.add(textField);
-		textField.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("USERNAME");
 		lblUsername.setBounds(394, 137, 265, 20);
@@ -179,10 +172,10 @@ public class Login extends JFrame {
 		lblClose.setBounds(691, 0, 37, 27);
 		contentPane.add(lblClose);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"user1", "user2", "user3", "user4"}));
-		comboBox.setBounds(395, 173, 265, 36);
-		contentPane.add(comboBox);
+		cboUserName = new JComboBox();
+		cboUserName.setModel(new DefaultComboBoxModel(new String[] {"user1", "user2", "user3", "user4"}));
+		cboUserName.setBounds(394, 168, 266, 36);
+		contentPane.add(cboUserName);
 		
 		
 	}
