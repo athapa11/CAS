@@ -55,42 +55,6 @@ public class Product {
 		}
 	}
 	
-	// View Stock.txt
-	public ArrayList<Product> getProducts() {
-		Scanner fileScanner = null;
-		ArrayList<Product> products = new ArrayList<Product>();
-		try {
-			File stockFile = new File("Stock.txt");
-			fileScanner = new Scanner(stockFile);			
-			
-				while (fileScanner.hasNextLine()){
-					String[] attributes = fileScanner.nextLine().split(",");				
-					
-					Product product = new Product (
-							Integer.parseInt(attributes[0].trim()),
-							attributes[1].trim(),
-							attributes[2].trim(), 
-							attributes[3].trim(), 
-							attributes[4].trim(), 
-							attributes[5].trim(), 
-							Integer.parseInt(attributes[6].trim()), 
-							Double.parseDouble(attributes[7].trim()), 
-							Double.parseDouble(attributes[8].trim()), 
-							attributes[9].trim() 
-							);
-					products.add(product);
-				}			
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		finally {
-			fileScanner.close();
-		}
-		return products;
-	}
-	
 	// Sort products by stock quantity
 	public ArrayList<Product> sortProductsByQuantity(ArrayList<Product> products) 
 	{
@@ -113,5 +77,64 @@ public class Product {
 		return products;
 	}
 	
-	
+	// View Stock.txt
+		public ArrayList<Product> getProducts() {
+			Scanner fileScanner = null;
+			ArrayList<Product> products = new ArrayList<Product>();
+			try {
+				File stockFile = new File("Stock.txt");
+				fileScanner = new Scanner(stockFile);			
+				
+					while (fileScanner.hasNextLine()){
+						String[] attributes = fileScanner.nextLine().split(",");				
+						
+						Product product = new Product (
+								Integer.parseInt(attributes[0].trim()),
+								attributes[1].trim(),
+								attributes[2].trim(), 
+								attributes[3].trim(), 
+								attributes[4].trim(), 
+								attributes[5].trim(), 
+								Integer.parseInt(attributes[6].trim()), 
+								Double.parseDouble(attributes[7].trim()), 
+								Double.parseDouble(attributes[8].trim()), 
+								attributes[9].trim() 
+								);
+						products.add(product);
+					}			
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+			finally {
+				fileScanner.close();
+			}
+			return products;
+		}
+		
+		public ArrayList<Product> getUKLayoutKeyboards() 
+		{
+			ArrayList<Product> products = getProducts();
+			for(Product per : products) 
+			{
+				if (((Product)per).getAdditionalInfo().contains("UK")) 
+					{
+						System.out.println(per.toString());
+					}
+			}
+			return products;
+		}
+		
+		public ArrayList<Product> getProductsByBrand()
+		{
+			ArrayList<Product> products = getProducts();
+			for(Product per : products) 
+			{
+				if (((Product)per).getBrand().equals(/*whatever brand name*/))
+				{
+					System.out.println(per.toString());
+				}
+			}
+		}
 }
