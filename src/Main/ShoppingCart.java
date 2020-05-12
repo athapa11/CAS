@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ShoppingCart {
 
  private static ArrayList<CartItem> cartItems = new ArrayList<CartItem>();
- private double dblOrderTotal ;
+ private static double dblOrderTotal ;
 
  public int getLineItemCount() {
   return cartItems.size();
@@ -17,10 +17,17 @@ public class ShoppingCart {
    calculateOrderTotal();
  }
  
- public void remvoeCartItem(int itemIndex) {
-	   cartItems.remove(itemIndex);
-	   calculateOrderTotal();
-	 }
+ public CartItem remvoeCartItem(int itemIndex) {
+	 CartItem cartItem = null;
+	 if(cartItems.size()>itemIndex) {
+		 cartItem = cartItems.get(itemIndex);
+		  if(cartItem != null) {
+			  cartItems.remove(cartItem);
+			   calculateOrderTotal();
+		  }		
+		}
+	 return cartItem;
+}
 
  public void addCartItem(CartItem cartItem) {
   cartItems.add(cartItem);
@@ -38,13 +45,13 @@ public class ShoppingCart {
   return cartItems;
  }
  public void setCartItems(ArrayList<CartItem> cartItems) {
-  this.cartItems = cartItems;
+  ShoppingCart.cartItems = cartItems;
  }
  public double getOrderTotal() {
   return dblOrderTotal;
  }
  public void setOrderTotal(double dblOrderTotal) {
-  this.dblOrderTotal = dblOrderTotal;
+  ShoppingCart.dblOrderTotal = dblOrderTotal;
  }
 
  protected void calculateOrderTotal() {
