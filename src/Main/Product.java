@@ -123,7 +123,7 @@ public class Product
 		{
 			fileScanner.close();
 		}
-		return products;
+		return  sortProductsByQuantity(products);
 	}
 		
 	public static ArrayList<Product> getUKLayoutKeyboards() 

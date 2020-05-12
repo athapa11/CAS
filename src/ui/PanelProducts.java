@@ -42,7 +42,7 @@ public class PanelProducts extends JPanel {
 
 	private DefaultTableModel productTableModel;
 	
-	private ArrayList<Product> sortedProducts = Product.sortProductsByQuantity(Product.getProducts());
+	private ArrayList<Product> sortedProducts = null;
 	
 	private User currentUser = null;                                            
 	private int lastColIndex = 0;
@@ -54,6 +54,7 @@ public class PanelProducts extends JPanel {
 		setBounds(0, 0, 992, 483);
 		setLayout(null);
 		setVisible(true);
+		sortedProducts = Product.getProducts();
 	    currentUser = UserSession.getCurrentUser(); 
         
 		lastColIndex = currentUser.isAdmin() ? 7 : 6;
@@ -85,8 +86,10 @@ public class PanelProducts extends JPanel {
 				{
 				  public void windowClosed(WindowEvent e)
 				  {
+					  System.out.println("add product dialog: ");
 					  productTableModel.setRowCount(0);
-					  fillProductTable(Product.getProducts());
+					  sortedProducts = Product.getProducts();
+					  fillProductTable();
 				  }
 				});
 			}
@@ -135,11 +138,11 @@ public class PanelProducts extends JPanel {
 		lblFilterByBrand_1_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblFilterByBrand_1_1.setBounds(690, 438, 302, 45);
 		add(lblFilterByBrand_1_1);
-		fillProductTable(Product.getProducts());
-	
+		fillProductTable();
+		
 	}
 	
-	private void fillProductTable(ArrayList<Product> products) {
+	private void fillProductTable() {
 		for (Product item : sortedProducts) 
 		{
 			String addtionalInfo = item.getFormattedAdditionalInfo();

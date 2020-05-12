@@ -286,6 +286,7 @@ public class AddProduct extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						Product.addProductToStock(txtBarcode, txtDeviceName, txtDeviceType, txtBrand, txtColour, txtConnectivity, 
 								txtQuantity, txtOriginalCost, txtRetailPrice, txtAdditionalInfo);
+						dispose();
 					}
 				});
 				btnAddProduct.setActionCommand("OK");

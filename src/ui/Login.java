@@ -65,7 +65,7 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setUndecorated(true);
 		JLabel label = new JLabel("");
 		label.setBounds(0, 0, 346, 275);
 		contentPane.add(label);
