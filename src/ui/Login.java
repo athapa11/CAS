@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import auth.Auth;
 import auth.User;
 import auth.UserSession;
 
@@ -14,7 +13,6 @@ import java.awt.Color;
 import java.awt.Button;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-//import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -23,13 +21,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 
 public class Login extends JFrame {
+	private User auth = new User();
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
-	//private JPasswordField passwordField;
 	
 	int xx,xy;
 
@@ -66,26 +67,9 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(51, 102, 102));
-		panel.setBounds(0, 0, 346, 490);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("CAS");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel.setForeground(new Color(240, 248, 255));
-		lblNewLabel.setBounds(139, 305, 84, 27);
-		panel.add(lblNewLabel);
-		
 		JLabel label = new JLabel("");
-		
-		JLabel lblLoginError = new JLabel("");
-		lblLoginError.setForeground(new Color(204, 51, 0));
-		lblLoginError.setBounds(395, 220, 400, 27);
-		lblLoginError.setVisible(false);
-		contentPane.add(lblLoginError);
+		label.setBounds(0, 0, 346, 275);
+		contentPane.add(label);
 		
 		label.addMouseListener(new MouseAdapter() {
 			@Override
@@ -104,16 +88,33 @@ public class Login extends JFrame {
 	            Login.this.setLocation(x - xx, y - xy);  
 			}
 		});
-		label.setBounds(-38, 0, 420, 275);
 		label.setVerticalAlignment(SwingConstants.TOP);
 		label.setIcon(new ImageIcon(Login.class.getResource("/images/bg.jpg")));
-		panel.add(label);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(51, 102, 102));
+		panel.setBounds(0, 0, 346, 490);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("CAS");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel.setForeground(new Color(240, 248, 255));
+		lblNewLabel.setBounds(0, 305, 346, 27);
+		panel.add(lblNewLabel);
+		
+		JLabel lblLoginError = new JLabel("");
+		lblLoginError.setForeground(new Color(204, 51, 0));
+		lblLoginError.setBounds(394, 225, 266, 27);
+		lblLoginError.setVisible(false);
+		contentPane.add(lblLoginError);
 		
 		JLabel lblWeGotYou = new JLabel("Computer Accessories Shop");
 		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWeGotYou.setForeground(new Color(240, 248, 255));
 		lblWeGotYou.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblWeGotYou.setBounds(49, 344, 252, 27);
+		lblWeGotYou.setBounds(0, 345, 346, 27);
 		panel.add(lblWeGotYou);
 		
 		Button button = new Button("Log In");
@@ -128,32 +129,31 @@ public class Login extends JFrame {
 					lblLoginError.setText("Please fill username");
 					lblLoginError.setVisible(true);
 				}else {
-					 //check log in
-					 User auth = new User();
-					 if(!auth.isValidUser(username)) {
-						 lblLoginError.setText("Invalid");
-							lblLoginError.setVisible(true);
-					 }else {
+					//check log in
+					if(!auth.isValidUser(username)) {
+						lblLoginError.setText("Invalid");
+						lblLoginError.setVisible(true);
+					}else {
 						setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 						Dashboard dashboard = new Dashboard();
 						dashboard.setLocationRelativeTo(null);
 						dashboard.setVisible(true);
-					 }
+					}
 				}
 			}
 		});
-		button.setForeground(Color.DARK_GRAY);
+		button.setForeground(new Color(0, 0, 0));
 		button.setBackground(Color.WHITE);
-		button.setBounds(395, 363, 283, 36);
+		button.setBounds(394, 239, 266, 36);
 		contentPane.add(button);
 		
 		textField = new JTextField();
-		textField.setBounds(395, 83, 283, 36);
+		textField.setBounds(426, 368, 266, 36);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("USERNAME");
-		lblUsername.setBounds(395, 58, 114, 14);
+		lblUsername.setBounds(394, 137, 265, 20);
 		contentPane.add(lblUsername);
 		
 		JLabel lblClose = new JLabel("X");
@@ -178,6 +178,11 @@ public class Login extends JFrame {
 		lblClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblClose.setBounds(691, 0, 37, 27);
 		contentPane.add(lblClose);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"user1", "user2", "user3", "user4"}));
+		comboBox.setBounds(395, 173, 265, 36);
+		contentPane.add(comboBox);
 		
 		
 	}
