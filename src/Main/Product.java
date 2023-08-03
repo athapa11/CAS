@@ -125,7 +125,8 @@ public class Product
 		}
 		return  sortProductsByQuantity(products);
 	}
-		
+	
+	// All products filtered by UK Layout Keyboards
 	public static ArrayList<Product> getUKLayoutKeyboards() 
 	{
 		ArrayList<Product> products = getProducts();
@@ -136,7 +137,7 @@ public class Product
 				System.out.println(per.toString());
 			}
 		}
-		return products;
+		return sortProductsByQuantity(products);
 	}
 		
 	/*public ArrayList<Product> getProductsByBrand()
@@ -144,7 +145,7 @@ public class Product
 		ArrayList<Product> products = getProducts();
 		for(Product per : products) 
 		{
-			if (((Product)per).getBrand().equals(whatever brand name))
+			if (((Product)per).getBrand().equals(brand name))
 			{
 				System.out.println(per.toString());
 			}
@@ -154,8 +155,7 @@ public class Product
 	// Add product after validation
 	public static void addProductToStock(JTextField txtBarcode, JTextField txtDeviceName, JTextField txtDeviceType, JTextField txtBrand, 
 			JTextField txtColour, JTextField txtConnectivity, JTextField txtQuantity, JTextField txtOriginalCost, 
-			JTextField txtRetailPrice, JTextField txtAdditionalInfo)
-	{
+			JTextField txtRetailPrice, JTextField txtAdditionalInfo) {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("Stock.txt", true));
 				

@@ -1,12 +1,8 @@
 package ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,35 +11,29 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import Main.ActivityLog;
-import Main.CartItem;
-import Main.Product;
-import Main.ShoppingCart;
-import auth.User;
-import auth.UserSession;
+import Main.BasketItem;
+import Main.Basket;
 
 import javax.swing.JRadioButton;
 
 public class DailogPay extends JDialog {
-
+	
 	private static final long serialVersionUID = 1L;
 	private final JPanel panelAddProductContent = new JPanel();
 	private JTextField txtCreditCard;
-	private ShoppingCart cart = new ShoppingCart();
+	private Basket cart = new Basket();
 	private JTextField txtEmail;
 	private JRadioButton radioPaypal;
 	private JRadioButton radioCreditCard;
 	private JLabel lblCreditCard;
 	private JLabel lblEmail;
-	private ArrayList<CartItem> shoppingCartItems;
+	private ArrayList<BasketItem> shoppingCartItems;
 	private Double totalToPay = 0.00;
 	public DailogPay() {
 		
@@ -59,8 +49,8 @@ public class DailogPay extends JDialog {
 		getContentPane().add(panelAddProductContent);
 	
 			
-		 shoppingCartItems = cart.getCartItems();
-		 totalToPay = cart.getOrderTotal();
+		 shoppingCartItems = cart.getBasketItems();
+		 totalToPay = cart.getTotalCost();
 		 
 		 System.out.print("items count "+ cart.getLineItemCount());
 		 System.out.print("total "+ totalToPay);
@@ -155,8 +145,9 @@ public class DailogPay extends JDialog {
 				btnPay.setForeground(new Color(0, 0, 0));
 				btnPay.setBackground(new Color(255, 255, 255));
 				btnPay.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {						
-						String message = logActivity();
+					public void actionPerformed(ActionEvent e) {
+						
+						String message = addActivity();
 						dispose();
 						 Object[] options = {"OK"};
 						  JOptionPane.showOptionDialog(null,
@@ -208,22 +199,22 @@ public class DailogPay extends JDialog {
 		lblEmail.setVisible(true);
 	}
 	
-	private String logActivity() {
+	// Log paying to the file
+	private String addActivity() {
 		String paymentMethod = "Credit Card";
 		if(radioPaypal.isSelected()) {
 			paymentMethod =  "PayPal";
 		}
 		
-		String message =formatTotal(totalToPay) + " paid using " + paymentMethod;
+		String message = formatTotal(totalToPay) + " paid using " + paymentMethod;
 		
 		ActivityLog log = new ActivityLog();
-		for (CartItem item : shoppingCartItems) {
-			log.addActivity(item, "purchased", paymentMethod);
+		for (BasketItem item : shoppingCartItems) {
+			log.logActivity(item, "purchased", paymentMethod);
 		}
-		cart.setCartItems( new ArrayList<CartItem> ());//remove all items
-		cart.setOrderTotal(0.00);
-		
-	 return message;
+		cart.setBasketItems(new ArrayList<BasketItem> ());//remove all items
+		cart.setTotalCost(0.00);
+		return message;
 	}
 	
 	private String formatTotal(Double total) {

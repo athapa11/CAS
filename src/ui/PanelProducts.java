@@ -9,12 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -25,15 +20,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import Main.Product;
-import Main.ShoppingCart;
-import auth.*;
-
+import Main.Basket;
+import Main.User;
+import Main.UserSession;
 
 public class PanelProducts extends JPanel {
 
@@ -46,7 +39,7 @@ public class PanelProducts extends JPanel {
 	
 	private User currentUser = null;                                            
 	private int lastColIndex = 0;
-	ShoppingCart cart = new ShoppingCart();
+	Basket cart = new Basket();
 	public PanelProducts() {
 		
 		setForeground(new Color(0, 0, 0));
@@ -61,16 +54,16 @@ public class PanelProducts extends JPanel {
 		
 		prepareProductcolumns();
 		
-		JPanel panelProductHeading = new JPanel();
-		panelProductHeading.setBackground(new Color(102, 153, 153));
-		panelProductHeading.setBounds(0, 0, 992, 55);
-		add(panelProductHeading);
-		panelProductHeading.setLayout(null);
+		JPanel panelProductsHeading = new JPanel();
+		panelProductsHeading.setBackground(new Color(102, 153, 153));
+		panelProductsHeading.setBounds(0, 0, 992, 55);
+		add(panelProductsHeading);
+		panelProductsHeading.setLayout(null);
 		
 		JLabel lblProductTitle = new JLabel("Products");
 		lblProductTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblProductTitle.setBounds(0, 0, 213, 55);
-		panelProductHeading.add(lblProductTitle);
+		panelProductsHeading.add(lblProductTitle);
 		lblProductTitle.setForeground(new Color(255, 255, 255));
 		lblProductTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -79,7 +72,7 @@ public class PanelProducts extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// open JDilog to add product 
-				AddProduct addProduct = new AddProduct();
+				DialogAddProduct addProduct = new DialogAddProduct();
 				addProduct.setVisible(true);
 				
 				addProduct.addWindowListener(new WindowAdapter() 
@@ -98,14 +91,14 @@ public class PanelProducts extends JPanel {
 		lblAddProduct.setForeground(Color.WHITE);
 		lblAddProduct.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblAddProduct.setBounds(636, 12, 165, 31);
-		panelProductHeading.add(lblAddProduct);
+		panelProductsHeading.add(lblAddProduct);
 		
-		JLabel lblCart = new JLabel("Cart");
-		lblCart.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCart.setForeground(Color.WHITE);
-		lblCart.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCart.setBounds(899, 14, 78, 27);
-		panelProductHeading.add(lblCart);
+		JLabel lblBasket = new JLabel("Basket");
+		lblBasket.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBasket.setForeground(Color.WHITE);
+		lblBasket.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblBasket.setBounds(899, 14, 78, 27);
+		panelProductsHeading.add(lblBasket);
 		
 		JScrollPane scrollTableProducts = new JScrollPane();
 		scrollTableProducts.setBounds(0, 55, 992, 382);
@@ -119,25 +112,25 @@ public class PanelProducts extends JPanel {
 		tableProducts.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		scrollTableProducts.setViewportView(tableProducts);
 		
-		JLabel lblFilterByBrand = new JLabel("Filter By Brand :");
-		lblFilterByBrand.setForeground(new Color(255, 255, 255));
-		lblFilterByBrand.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblFilterByBrand.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFilterByBrand.setBounds(58, 438, 152, 45);
-		add(lblFilterByBrand);
+		JLabel lblFilterByBrandName = new JLabel("Filter By Brand :");
+		lblFilterByBrandName.setForeground(new Color(255, 255, 255));
+		lblFilterByBrandName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblFilterByBrandName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFilterByBrandName.setBounds(58, 438, 152, 45);
+		add(lblFilterByBrandName);
 		
-		JLabel lblAsus = new JLabel("ASUS");
-		lblAsus.setForeground(new Color(255, 255, 255));
-		lblAsus.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblAsus.setBounds(215, 438, 152, 45);
-		add(lblAsus);
+		JLabel lblBrandName = new JLabel("");
+		lblBrandName.setForeground(new Color(255, 255, 255));
+		lblBrandName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblBrandName.setBounds(215, 438, 152, 45);
+		add(lblBrandName);
 		
-		JLabel lblFilterByBrand_1_1 = new JLabel("Filter By UK KEYBOARDS");
-		lblFilterByBrand_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFilterByBrand_1_1.setForeground(new Color(255, 255, 255));
-		lblFilterByBrand_1_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblFilterByBrand_1_1.setBounds(690, 438, 302, 45);
-		add(lblFilterByBrand_1_1);
+		JLabel lblFilterByKeyboard = new JLabel("Filter By UK Keyboards");
+		lblFilterByKeyboard.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFilterByKeyboard.setForeground(new Color(255, 255, 255));
+		lblFilterByKeyboard.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblFilterByKeyboard.setBounds(690, 438, 302, 45);
+		add(lblFilterByKeyboard);
 		fillProductTable();
 		
 	}
@@ -260,7 +253,7 @@ public class PanelProducts extends JPanel {
 				   if(btnLabel.equals("Update")) {
 					   JOptionPane.showMessageDialog(actionBtn, btnLabel+" Clicked");
 				   } else {
-			   		  AddItemToCart addItem = new AddItemToCart(selectedProduct);
+			   		  DialogAddToBasket addItem = new DialogAddToBasket(selectedProduct);
 			   		  addItem.setVisible(true);
 			   		}
 			   }

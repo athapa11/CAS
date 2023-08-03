@@ -5,10 +5,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
-import javax.swing.border.LineBorder;
 
-import auth.UserSession;
-import auth.User;
+import Main.User;
+import Main.UserSession;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,7 +26,6 @@ public class Dashboard extends JFrame {
 	private JPanel contentPane;
 	
 	private PanelProducts panelProducts;
-	private PanelProfile panelProfile;
 
 	/**
 	 * Launch the application.
@@ -61,16 +59,15 @@ public class Dashboard extends JFrame {
 		contentPane.setLayout(null);
 		
 		panelProducts = new PanelProducts();
-		panelProfile = new PanelProfile();
 
 		JPanel panelMenu = new JPanel();
 		panelMenu.setBackground(new Color(51, 102, 102));
-		panelMenu.setBounds(0, 0, 197, 587);
+		panelMenu.setBounds(0, 0, 200, 587);
 		contentPane.add(panelMenu);
 		panelMenu.setLayout(null);
 		
 		JLabel lblLogo = new JLabel("New label");
-		lblLogo.setBounds(2, 2, 197, 196);
+		lblLogo.setBounds(0, 0, 199, 199);
 		lblLogo.setIcon(new ImageIcon(Login.class.getResource("/images/bg.jpg")));
 		panelMenu.add(lblLogo);
 		
@@ -82,33 +79,15 @@ public class Dashboard extends JFrame {
 			}
 		});
 		panelProductMenu.setBackground(new Color(51, 102, 102));
-		panelProductMenu.setBounds(0, 195, 197, 40);
+		panelProductMenu.setBounds(0, 200, 199, 40);
 		panelMenu.add(panelProductMenu);
 		panelProductMenu.setLayout(null);
 		
 		JLabel lblProductMenu = new JLabel("Product");
 		lblProductMenu.setForeground(new Color(255, 255, 255));
 		lblProductMenu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblProductMenu.setBounds(17, 6, 174, 28);
+		lblProductMenu.setBounds(15, 0, 184, 40);
 		panelProductMenu.add(lblProductMenu);
-		
-		JPanel panelProfileMenu = new JPanel();
-		panelProfileMenu.addMouseListener(new MenuButtonMouseAdampter(panelProfileMenu) {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				menuClicked(panelProfile);
-			}
-		});
-		panelProfileMenu.setBackground(new Color(51, 102, 102));
-		panelProfileMenu.setBounds(0, 235, 197, 40);
-		panelMenu.add(panelProfileMenu);
-		panelProfileMenu.setLayout(null);
-		
-		JLabel lblProfileMenu = new JLabel("Activity Log");
-		lblProfileMenu.setBounds(18, 5, 173, 29);
-		lblProfileMenu.setForeground(Color.WHITE);
-		lblProfileMenu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panelProfileMenu.add(lblProfileMenu);
 		
 		JPanel panelLogoutMenu = new JPanel();
 		panelLogoutMenu.addMouseListener(new MenuButtonMouseAdampter(panelLogoutMenu) {
@@ -119,20 +98,19 @@ public class Dashboard extends JFrame {
 					Login login = new Login();
 					login.setVisible(true);
 					Dashboard.this.dispose();
-					//UserSession.cleanUserSession();
 				}  
 				
 			} 
 		});
 		panelLogoutMenu.setBackground(new Color(51, 102, 102));
-		panelLogoutMenu.setBounds(0, 275, 197, 40);
+		panelLogoutMenu.setBounds(0, 240, 199, 40);
 		panelMenu.add(panelLogoutMenu);
 		panelLogoutMenu.setLayout(null);
 		
 		JLabel lblLogOutMenu = new JLabel("Log out");
 		lblLogOutMenu.setForeground(Color.WHITE);
 		lblLogOutMenu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblLogOutMenu.setBounds(18, 6, 173, 29);
+		lblLogOutMenu.setBounds(15, 0, 184, 40);
 		panelLogoutMenu.add(lblLogOutMenu);
 		
 		JLabel lblCloseDashboard = new JLabel("X");
@@ -168,7 +146,6 @@ public class Dashboard extends JFrame {
 		
 		//add menu panel
 		panelMainContent.add(panelProducts);
-		panelMainContent.add(panelProfile);
 		
 		JLabel lblCurrentUser = new JLabel("User:");
 		lblCurrentUser.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -201,7 +178,6 @@ public class Dashboard extends JFrame {
 	
 	public void menuClicked(JPanel panel) {
 	 panelProducts.setVisible(false);
-	 panelProfile.setVisible(false);
 	 
 	 panel.setVisible(true);
 	}

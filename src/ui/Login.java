@@ -6,12 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import auth.User;
-import auth.UserSession;
+import Main.User;
 
 import java.awt.Color;
 import java.awt.Button;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -24,13 +22,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-
 public class Login extends JFrame {
-	private User auth = new User();
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JComboBox cboUserName;
+	private JComboBox<?> cboUserName;
 	int xx,xy;
 
 	/**
@@ -140,12 +136,13 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		button.setForeground(new Color(0, 0, 0));
-		button.setBackground(Color.WHITE);
+		button.setForeground(Color.WHITE);
+		button.setBackground(new Color(0, 153, 153));
 		button.setBounds(394, 239, 266, 36);
 		contentPane.add(button);
 		
 		JLabel lblUsername = new JLabel("USERNAME");
+		lblUsername.setForeground(Color.WHITE);
 		lblUsername.setBounds(394, 137, 265, 20);
 		contentPane.add(lblUsername);
 		
@@ -173,11 +170,11 @@ public class Login extends JFrame {
 		contentPane.add(lblClose);
 		
 		cboUserName = new JComboBox();
+		cboUserName.setForeground(new Color(255, 255, 255));
+		cboUserName.setBackground(new Color(0, 153, 153));
 		cboUserName.setModel(new DefaultComboBoxModel(new String[] {"user1", "user2", "user3", "user4"}));
 		cboUserName.setBounds(394, 168, 266, 36);
 		contentPane.add(cboUserName);
-		
-		
 	}
 	
 	boolean isEmptyOrNull(String str) {

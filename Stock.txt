@@ -13,4 +13,3 @@
 237788, keyboard, standard, Logitech, grey, wired, 15, 6.50, 8.99, UK
 237799, mouse, standard, Logitech, grey, wireless, 13, 7.0, 8.0, 2
 238800, keyboard, internet, Microsoft, black, wired, 10, 26.50, 30.0, US
-999999, KEYBOARD, MECHANICAL, ASUS, BLACK, WIRED, 150, 99.99, 199.99, UK
