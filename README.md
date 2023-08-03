@@ -1,1 +1,1 @@
-# CAS
+# CAS: Computer Accessories Shop Project
